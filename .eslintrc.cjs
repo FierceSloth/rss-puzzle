@@ -26,5 +26,6 @@ module.exports = {
     'import/extensions': 'off',
     'no-console': 'warn',
     '@typescript-eslint/no-explicit-any': 'error',
+    'import/prefer-default-export': 'off',
   },
 };
