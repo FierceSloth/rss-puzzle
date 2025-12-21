@@ -1,6 +1,6 @@
 import { App } from '../app';
 
-export class StatisticsPage {
+export class MainPage {
   private app: App;
 
   constructor(app: App) {
@@ -8,6 +8,6 @@ export class StatisticsPage {
   }
 
   render(): void {
-    this.app.container.innerHTML = '<h1> Statistics Page </h1>';
+    this.app.container.innerHTML = '<h1> Main Page </h1>';
   }
 } // ! Temporary placeholder for the router class

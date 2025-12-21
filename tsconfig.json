@@ -10,17 +10,17 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "noEmit": true,
+    // "verbatimModuleSyntax": true,
 
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noFallthroughCasesInSwitch": true
+    // "erasableSyntaxOnly": true,
+    // "noUncheckedSideEffectImports": true
   },
   "include": ["src", ".eslintrc.cjs", "vite.config.js"]
 }
