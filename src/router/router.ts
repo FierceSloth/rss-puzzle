@@ -1,38 +1,44 @@
-// import type { Page } from '../source/types';
-// import type { App } from '../app';
-// import { GaragePage } from '../pages/garage-page';
-// import { WinnersPage } from '../pages/winners-page';
-// import { PagePath } from '../source/enum';
-// import { NotFound } from '../pages/not-found';
-// import { DEFAULT_VALUE_PAGE } from '../source/constants';
-// export class Router {
-//   private pages: Record<string, Page>;
-//   private currentPath = DEFAULT_VALUE_PAGE;
+import type { Page } from '../common/types/types';
+import type { App } from '../app';
+import { GamePage } from '../pages/game-page';
+import { LoginPage } from '../pages/login-page';
+import { MainPage } from '../pages/main-page';
+import { StatisticsPage } from '../pages/statistics-page';
+import { NotFound } from '../pages/not-found';
+import { PagePath } from '../common/enums/enums';
 
-//   constructor(app: App) {
-//     this.pages = {
-//       [PagePath.GARAGE]: new GaragePage(app),
-//       [PagePath.WINNERS]: new WinnersPage(app),
-//       [PagePath.NOT_FOUND]: new NotFound(app),
-//     };
-//   }
+export class Router {
+  private pages: Record<string, Page>;
 
-//   public route(path: string): void {
-//     if (this.currentPath === path) return;
+  private currentPath = '';
 
-//     this.currentPath = path;
-//     const page = this.pages[path] || this.pages[PagePath.NOT_FOUND];
-//     page.render();
-//   }
+  constructor(app: App) {
+    this.pages = {
+      [PagePath.LOGIN]: new LoginPage(app),
+      [PagePath.MAIN]: new MainPage(app),
+      [PagePath.GAME]: new GamePage(app),
+      [PagePath.STATISTICS]: new StatisticsPage(app),
+      [PagePath.NOT_FOUND]: new NotFound(app),
+    };
+  }
 
-//   public navigate(path: string): void {
-//     globalThis.history.pushState({}, '', path);
-//     this.route(path);
-//   }
+  public route(path: string): void {
+    if (this.currentPath === path) return;
 
-//   public listen(): void {
-//     globalThis.addEventListener('popstate', () => {
-//       this.route(globalThis.location.pathname);
-//     });
-//   }
-// }
+    this.currentPath = path;
+    const page = this.pages[path] || this.pages[PagePath.NOT_FOUND];
+    page.render();
+  }
+
+  public navigate(path: string): void {
+    globalThis.history.pushState({}, '', path);
+    this.route(path);
+  }
+
+  public listen(): void {
+    globalThis.addEventListener('popstate', () => {
+      this.route(globalThis.location.pathname);
+    });
+    this.route(globalThis.location.pathname);
+  }
+}
