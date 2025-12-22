@@ -1,7 +1,20 @@
+import { Component } from '@common/base-component';
+import { Router } from './router/router';
+
 export class App {
-  public container: HTMLElement;
+  public readonly container: HTMLElement;
+
+  public readonly router: Router;
 
   constructor() {
-    this.container = document.body;
+    const root = new Component({ attrs: { id: 'app' } });
+    document.body.append(root.node);
+    this.container = root.node;
+
+    this.router = new Router(this);
+  }
+
+  start() {
+    this.router.listen();
   }
 }

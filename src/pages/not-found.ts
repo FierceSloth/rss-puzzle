@@ -1,13 +1,17 @@
-import { App } from '../app';
+import type { Router } from '@/router/router';
 
 export class NotFound {
-  private app: App;
+  private container: HTMLElement;
 
-  constructor(app: App) {
-    this.app = app;
+  private router: Router;
+
+  constructor(container: HTMLElement, router: Router) {
+    this.container = container;
+    this.router = router;
   }
 
   render(): void {
-    this.app.container.innerHTML = '<h1> 404 Not Found </h1>';
+    this.container.innerHTML = '<h1> 404 Not Found </h1>';
+    console.log(this.router); // ? Temporarily, so that eslint doesn't complain that the router is not being used
   }
 } // ! Temporary placeholder for the router class

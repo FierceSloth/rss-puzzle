@@ -1,4 +1,4 @@
-import { IComponent } from './types/types';
+import { IComponent } from '@app-types/types';
 
 export class Component<T extends HTMLElement = HTMLElement> {
   public readonly node: T;
