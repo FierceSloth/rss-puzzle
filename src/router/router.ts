@@ -1,4 +1,4 @@
-import type { Page } from '../common/types/types';
+import type { IPage } from '../common/types/types';
 import type { App } from '../app';
 import { GamePage } from '../pages/game-page';
 import { LoginPage } from '../pages/login-page';
@@ -8,7 +8,7 @@ import { NotFound } from '../pages/not-found';
 import { PagePath } from '../common/enums/enums';
 
 export class Router {
-  private pages: Record<string, Page>;
+  private pages: Record<string, IPage>;
 
   private currentPath = '';
 
