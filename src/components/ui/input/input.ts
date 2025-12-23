@@ -2,19 +2,18 @@ import { IComponentChild } from '@app-types/types';
 import { Component } from '@/common/base-component';
 import styles from './input.module.scss';
 
-interface IChild extends IComponentChild {
-  type: string;
-  labelText: string;
-  placeholder: string;
+interface IProps extends IComponentChild {
+  type?: string;
+  labelText?: string;
+  placeholder?: string;
 }
 
 export class BaseInput extends Component {
-  public readonly inputEl: HTMLInputElement;
+  private inputEl: HTMLInputElement;
+  // private errorEl: HTMLElement;
 
-  public readonly errorEl: HTMLElement;
-
-  constructor({ otherClasses = [], type = 'text', labelText = '', placeholder = '' }: IChild) {
-    super({ className: styles.inputContainer });
+  constructor({ className = [], type = 'text', labelText = '', placeholder = '' }: IProps) {
+    super({ className: [styles.inputContainer, ...className] });
 
     const inputAttrs = {
       type,
@@ -22,11 +21,7 @@ export class BaseInput extends Component {
     };
 
     const label = new Component<HTMLLabelElement>({ tag: 'label', className: styles.label, text: labelText });
-    const input = new Component<HTMLInputElement>({
-      tag: 'input',
-      className: [styles.input, ...otherClasses],
-      attrs: inputAttrs,
-    });
+    const input = new Component<HTMLInputElement>({ tag: 'input', className: styles.input, attrs: inputAttrs });
 
     const inputWrapper = new Component({ className: styles.inputWrapper }, input);
 
@@ -35,7 +30,7 @@ export class BaseInput extends Component {
     this.appendChildren([label, inputWrapper, error]);
 
     this.inputEl = input.node;
-    this.errorEl = error.node;
+    // this.errorEl = error.node;
   }
 
   public getValue(): string {

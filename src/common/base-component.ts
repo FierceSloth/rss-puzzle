@@ -90,6 +90,15 @@ export class Component<T extends HTMLElement = HTMLElement> {
     return this;
   }
 
+  removeListener<K extends keyof HTMLElementEventMap>(
+    event: K,
+    listener: (this: T, ev: HTMLElementEventMap[K]) => void,
+    options?: boolean | AddEventListenerOptions
+  ): this {
+    this.node.removeEventListener(event, listener as unknown as EventListener, options);
+    return this;
+  }
+
   destroy(): void {
     this.node.remove();
   }
