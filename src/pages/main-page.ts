@@ -12,6 +12,9 @@ export class MainPage {
 
   render(): void {
     this.container.innerHTML = '<h1> Main Page </h1>';
-    console.log(this.router); // ? Temporarily, so that eslint doesn't complain that the router is not being used
+  }
+
+  temporaryMethod(): Router {
+    return this.router; // ? Temporarily, so that eslint doesn't complain that the router is not being used
   }
 } // ! Temporary placeholder for the router class
