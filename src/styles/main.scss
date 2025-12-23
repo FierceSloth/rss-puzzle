@@ -1,0 +1,63 @@
+@use './reset';
+
+// Fonts
+$font-heading: 'Montserrat', sans-serif;
+$font-body: 'Inter', sans-serif;
+
+// Colors
+$teal-600: #0d9488;
+$teal-700: #0f766e;
+$gray-100: #f3f4f6;
+$gray-800: #1f2937;
+$gray-400: #9ca3af;
+$white: #ffffff;
+$green: #10b981;
+$red: #ef4444;
+
+// Shadows
+$shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+$shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+:root {
+  /* Fonts */
+  --font-heading: #{$font-heading};
+  --font-body: #{$font-body};
+
+  /* Colors */
+  --color-bg: #{$gray-100};
+  --color-surface: #{$white};
+
+  --color-primary: #{$teal-600};
+  --color-primary-hover: #{$teal-700};
+
+  --color-text-main: #{$gray-800};
+  --color-text-muted: #{$gray-400};
+
+  --color-success: #{$green};
+  --color-error: #{$red};
+
+  /* Shadows */
+  --shadow-soft: #{$shadow-soft};
+  --shadow-hover: #{$shadow-hover};
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text-main);
+  font-family: var(--font-body);
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+
+  &.title-large {
+    color: var(--color-primary);
+  }
+}
