@@ -1,17 +1,18 @@
+import { Component } from '@/common/base-component';
 import type { Router } from '@/router/router';
 
-export class LoginPage {
-  private container: HTMLElement;
+export class MainPage {
+  private container: Component;
 
   private router: Router;
 
-  constructor(container: HTMLElement, router: Router) {
+  constructor(container: Component, router: Router) {
     this.container = container;
     this.router = router;
   }
 
   render(): void {
-    this.container.innerHTML = '<h1> Login Page </h1>';
+    this.container.node.innerHTML = '<h1> Main Page </h1>';
   }
 
   temporaryMethod(): Router {

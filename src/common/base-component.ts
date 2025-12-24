@@ -69,6 +69,10 @@ export class Component<T extends HTMLElement = HTMLElement> {
     return this;
   }
 
+  destroyChildren(): void {
+    this.node.replaceChildren();
+  }
+
   /**
    * Adds an event listener with strict type checking.
    *

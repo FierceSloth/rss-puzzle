@@ -1,0 +1,37 @@
+.loginContainer {
+  min-height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 500px;
+  gap: 20px;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  div {
+    font-size: 3rem;
+  }
+  img {
+    width: 3.5rem;
+  }
+}
+
+.text {
+  font-size: 1.1rem;
+  font-weight: 300;
+}
+
+.inputWrapper {
+  width: 100%;
+}

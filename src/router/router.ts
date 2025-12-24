@@ -1,14 +1,16 @@
 import type { IPage } from '@app-types/types';
 import { PagePath } from '@enums/enums';
+import { GamePage } from '@pages/game-page/game-page';
+import { LoginPage } from '@pages/login-page/login-page';
+import { MainPage } from '@pages/main-page/main-page';
+import { StatisticsPage } from '@pages/statistics-page/statistics-page';
+import { NotFound } from '@pages/not-found-page/not-found';
 import type { App } from '@/app';
-import { GamePage } from '@/pages/game-page';
-import { LoginPage } from '@/pages/login-page';
-import { MainPage } from '@/pages/main-page';
-import { StatisticsPage } from '@/pages/statistics-page';
-import { NotFound } from '@/pages/not-found';
 
 export class Router {
   private pages: Record<string, IPage>;
+
+  private app: App;
 
   private currentPath = '';
 
@@ -20,6 +22,7 @@ export class Router {
       [PagePath.STATISTICS]: new StatisticsPage(app.container, this),
       [PagePath.NOT_FOUND]: new NotFound(app.container, this),
     };
+    this.app = app;
   }
 
   public route(path: string): void {
@@ -27,6 +30,7 @@ export class Router {
 
     this.currentPath = path;
     const page = this.pages[path] || this.pages[PagePath.NOT_FOUND];
+    this.app.clearContainer();
     page.render();
   }
 

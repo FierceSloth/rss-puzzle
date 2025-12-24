@@ -13,7 +13,7 @@ export class BaseInput extends Component {
   // private errorEl: HTMLElement;
 
   constructor({ className = [], type = 'text', labelText = '', placeholder = '' }: IProps) {
-    super({ className: [styles.inputContainer, ...className] });
+    super({ className: [styles.сontainer, ...className] });
 
     const inputAttrs = {
       type,

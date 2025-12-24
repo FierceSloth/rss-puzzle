@@ -5,6 +5,7 @@ import styles from './button.module.scss';
 interface IProps extends IComponentChild {
   onClick?: (event: MouseEvent) => void;
   type?: 'button' | 'submit' | 'reset';
+  text?: string;
 }
 
 type IListener = null | ((event: MouseEvent) => void);
@@ -12,8 +13,8 @@ type IListener = null | ((event: MouseEvent) => void);
 export class Button extends Component {
   private listener: IListener;
 
-  constructor({ className = [], children = [], type = 'button', onClick }: IProps) {
-    super({ tag: 'button', className: [styles.button, ...className], attrs: { type } }, ...children);
+  constructor({ className = [], children = [], type = 'button', text = '', onClick }: IProps) {
+    super({ tag: 'button', text, className: [styles.button, ...className], attrs: { type } }, ...children);
 
     if (typeof onClick === 'function') {
       super.addListener('click', onClick);

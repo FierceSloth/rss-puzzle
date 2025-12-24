@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "lint-staged": {
-    "*.{ts,js,json,css,md,html}": [
-      "prettier --write"
-    ],
     "*.{ts,js}": [
+      "prettier --write",
       "eslint --fix"
+    ],
+    "*.{json,css,scss,md,html}": [
+      "prettier --write"
     ]
   },
   "validate-branch-name": {
