@@ -27,6 +27,7 @@
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
+      "@assets/*": ["src/assets*"],
       "@common/*": ["src/common/*"],
       "@utils/*": ["src/common/utils/*"],
       "@constants/*": ["src/common/constants/*"],
