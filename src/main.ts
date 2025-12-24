@@ -1,7 +1,5 @@
 import { App } from './app';
-import { Router } from './router/router';
+import './styles/main.scss';
 
 const app = new App();
-const router = new Router(app);
-
-router.listen();
+app.start();
