@@ -1,5 +1,12 @@
+import { Header } from '@components/layout/header/header';
 import { Component } from '@/common/base-component';
 import type { Router } from '@/router/router';
+
+import styles from './main-page.module.scss';
+import { BaseCard } from '@/components/ui/card/card';
+import { Button } from '@/components/ui/button/button';
+import { mainMessages } from '@/common/constants/messages';
+import { PagePath } from '@/common/enums/enums';
 
 export class MainPage {
   private container: Component;
@@ -12,10 +19,37 @@ export class MainPage {
   }
 
   render(): void {
-    this.container.node.innerHTML = '<h1> Main Page </h1>';
-  }
+    // ================== Header ===============
 
-  temporaryMethod(): Router {
-    return this.router; // ? Temporarily, so that eslint doesn't complain that the router is not being used
+    const header = new Header({ className: [styles.header] });
+
+    // ================== TextContainer ===============
+
+    const userName = 'User Name'; // TODO: write the real name of the user
+
+    const title = new Component({
+      tag: 'h1',
+      className: styles.title,
+      text: `${mainMessages.maintText} ${userName}!`,
+    });
+    const text = new Component({ tag: 'p', className: styles.text, text: mainMessages.secondText });
+    const textContainer = new Component({ className: styles.textContainer }, title, text);
+
+    // ================== Button ===============
+
+    const startBtn = new Button({
+      className: [styles.startBtn],
+      text: mainMessages.btnText,
+      onClick: () => {
+        this.router.navigate(PagePath.GAME);
+      },
+    });
+
+    // ================== Containers ===============
+
+    const card = new BaseCard({ className: [styles.card], children: [textContainer, startBtn] });
+
+    const pageContainer = new Component({ className: ['pageContainer', styles.mainContainer] }, card);
+    this.container.appendChildren([header, pageContainer]);
   }
-} // ! Temporary placeholder for the router class
+}

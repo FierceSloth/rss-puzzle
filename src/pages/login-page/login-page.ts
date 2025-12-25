@@ -4,8 +4,10 @@ import { Logo } from '@components/ui/logo/logo';
 import { BaseInput } from '@components/ui/input/input';
 import { Button } from '@components/ui/button/button';
 import type { Router } from '@/router/router';
+import { loginMessages } from '@/common/constants/messages';
 
 import styles from './login-page.module.scss';
+import { PagePath } from '@/common/enums/enums';
 
 export class LoginPage {
   private container: Component;
@@ -21,7 +23,7 @@ export class LoginPage {
     // ================== Logo =================
 
     const logo = new Logo({ className: [styles.logo] });
-    const secondText = new Component({ tag: 'p', className: styles.text, text: 'Begin your linguistic journey.' });
+    const secondText = new Component({ tag: 'p', className: styles.text, text: loginMessages.secondText });
 
     const logoContainer = new Component({ className: styles.logoContainer }, logo, secondText);
 
@@ -30,24 +32,25 @@ export class LoginPage {
     const nameInput = new BaseInput({
       className: [styles.input],
       type: 'text',
-      labelText: 'First Name',
-      placeholder: 'Name',
+      labelText: loginMessages.nameLabel,
+      placeholder: loginMessages.namePlaceholder,
     });
     const surnameInput = new BaseInput({
       className: [styles.input],
       type: 'text',
-      labelText: 'Second Name',
-      placeholder: 'Surname',
+      labelText: loginMessages.surnameLabel,
+      placeholder: loginMessages.surnamePlaceholder,
     });
+
     const inputWrapper = new Component({ className: [styles.inputWrapper] }, nameInput, surnameInput);
 
     // ================== Button =================
 
     const loginBtn = new Button({
       className: [styles.loginBtn],
-      text: 'LOGIN',
+      text: loginMessages.btnText,
       onClick: () => {
-        this.router.navigate('/main');
+        this.router.navigate(PagePath.MAIN);
       },
     });
 

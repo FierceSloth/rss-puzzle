@@ -1,0 +1,39 @@
+.header {
+  max-width: 1280px;
+  width: 100%;
+  height: 90px;
+  padding: 0 20px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    padding: 0 15px;
+  }
+}
+
+// .logoWrapper {}
+
+.exitContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  transition: all 0.3s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.exitIcon {
+  width: 25px;
+  filter: brightness(0) saturate(100%) invert(11%) sepia(33%) saturate(700%) hue-rotate(175deg) brightness(100%)
+    contrast(89%);
+}
+
+.exitText {
+  font-weight: 600;
+}

@@ -78,7 +78,9 @@ export class Component<T extends HTMLElement = HTMLElement> {
    *
    * Note: Complex typing logic (Generics + Mapped Types) is used here.
    * This ensures that IDE autocomplete works correctly (e.g., inferring MouseEvent for 'click').
-   * Adapted this implementation from a ready-made solution.
+   *
+   * ! Adapted this implementation from a ready-made solution, because my
+   * ! knowledge is insufficient to typify it without using 'any' !!!.
    *
    * @param event - The name of the event (e.g., 'click').
    * @param listener - The callback function.
