@@ -1,5 +1,8 @@
+import { Header } from '@components/layout/header/header';
 import { Component } from '@/common/base-component';
 import type { Router } from '@/router/router';
+
+import styles from './main-page.module.scss';
 
 export class MainPage {
   private container: Component;
@@ -12,10 +15,13 @@ export class MainPage {
   }
 
   render(): void {
-    this.container.node.innerHTML = '<h1> Main Page </h1>';
+    const header = new Header({ className: [styles.header] });
+
+    const pageContainer = new Component({ className: 'pageContainer' }, header);
+    this.container.append(pageContainer);
   }
 
   temporaryMethod(): Router {
     return this.router; // ? Temporarily, so that eslint doesn't complain that the router is not being used
   }
-} // ! Temporary placeholder for the router class
+}

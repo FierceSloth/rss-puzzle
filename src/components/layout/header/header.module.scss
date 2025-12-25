@@ -1,0 +1,31 @@
+.header {
+  width: 100%;
+  height: 90px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// .logoWrapper {}
+
+.exitContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  transition: all 0.3s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.exitIcon {
+  width: 25px;
+  filter: brightness(0) saturate(100%) invert(11%) sepia(33%) saturate(700%) hue-rotate(175deg) brightness(100%)
+    contrast(89%);
+}
+
+.exitText {
+  font-weight: 600;
+}

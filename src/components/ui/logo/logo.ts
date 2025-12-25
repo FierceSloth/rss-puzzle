@@ -1,6 +1,7 @@
 import { IComponentChild } from '@app-types/types';
 import puzzleIcon from '@assets/images/logo-puzzle.png';
 import { Component } from '@/common/base-component';
+
 import styles from './logo.module.scss';
 
 interface IProps extends IComponentChild {}
