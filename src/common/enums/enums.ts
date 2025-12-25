@@ -5,3 +5,8 @@ export enum PagePath {
   STATISTICS = '/statistics',
   NOT_FOUND = '/not-found',
 }
+
+export enum ImgAlts {
+  exitIcon = 'Exit',
+  logoIcon = 'Logo',
+}

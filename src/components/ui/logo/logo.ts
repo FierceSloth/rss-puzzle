@@ -1,6 +1,8 @@
 import { IComponentChild } from '@app-types/types';
 import puzzleIcon from '@assets/images/logo-puzzle.png';
+import { logoMessages } from '@constants/messages';
 import { Component } from '@/common/base-component';
+import { ImgAlts } from '@/common/enums/enums';
 
 import styles from './logo.module.scss';
 
@@ -11,13 +13,13 @@ export class Logo extends Component {
     super({ tag: 'a', className: [styles.logoWrapper, ...className], attrs: { href: '/' } });
 
     const logoAttrs = {
-      alt: 'logo',
+      alt: ImgAlts.logoIcon,
       src: puzzleIcon,
     };
 
-    const firstText = new Component({ className: styles.text, text: 'RSS' });
+    const firstText = new Component({ className: styles.text, text: logoMessages.textRSS });
     const logoImg = new Component({ tag: 'img', className: styles.icon, attrs: logoAttrs });
-    const secondText = new Component({ className: styles.text, text: 'Puzzle' });
+    const secondText = new Component({ className: styles.text, text: logoMessages.textPuzzle });
 
     this.appendChildren([firstText, logoImg, secondText]);
   }

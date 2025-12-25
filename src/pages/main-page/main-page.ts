@@ -5,6 +5,8 @@ import type { Router } from '@/router/router';
 import styles from './main-page.module.scss';
 import { BaseCard } from '@/components/ui/card/card';
 import { Button } from '@/components/ui/button/button';
+import { mainMessages } from '@/common/constants/messages';
+import { PagePath } from '@/common/enums/enums';
 
 export class MainPage {
   private container: Component;
@@ -23,17 +25,23 @@ export class MainPage {
 
     // ================== TextContainer ===============
 
-    const title = new Component({ tag: 'h1', className: styles.title, text: 'Welcome back, User Name!' });
-    const text = new Component({ tag: 'p', className: styles.text, text: 'Assemble sentences, reveal masterpieces.' });
+    const userName = 'User Name'; // TODO: write the real name of the user
+
+    const title = new Component({
+      tag: 'h1',
+      className: styles.title,
+      text: `${mainMessages.maintText} ${userName}!`,
+    });
+    const text = new Component({ tag: 'p', className: styles.text, text: mainMessages.secondText });
     const textContainer = new Component({ className: styles.textContainer }, title, text);
 
     // ================== Button ===============
 
     const startBtn = new Button({
       className: [styles.startBtn],
-      text: 'Start Game',
+      text: mainMessages.btnText,
       onClick: () => {
-        this.router.navigate('/game');
+        this.router.navigate(PagePath.GAME);
       },
     });
 

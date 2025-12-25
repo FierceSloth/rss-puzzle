@@ -1,6 +1,7 @@
 import { IComponentChild } from '@app-types/types';
 import { Logo } from '@components/ui/logo/logo';
 import iconImg from '@assets/images/exit.png';
+import { ImgAlts } from '@enums/enums';
 import { Component } from '@/common/base-component';
 
 import styles from './header.module.scss';
@@ -16,7 +17,7 @@ export class Header extends Component {
     super({ className: [styles.header, ...className], tag: 'header' });
 
     const iconAttrs = {
-      alt: 'Exit',
+      alt: ImgAlts.exitIcon,
       src: iconImg,
     };
 
