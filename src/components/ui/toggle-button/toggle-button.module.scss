@@ -1,0 +1,30 @@
+.toggleBtn {
+  width: 60px;
+  background: linear-gradient(180deg, var(--color-primary), var(--color-primary-hover));
+  border: 1px var(--color-primary-hover) solid;
+  border-radius: 15px;
+  padding: 2px;
+  transition:
+    all 0.3s,
+    border-color 0s,
+    background-color 0s;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.imageBtn {
+  width: 24px;
+  filter: brightness(0) saturate(100%) invert(99%) sepia(31%) saturate(25%) hue-rotate(226deg) brightness(111%)
+    contrast(96%);
+}
+
+.disabled {
+  border-color: #b6bcc5;
+  background: var(--color-text-muted);
+}

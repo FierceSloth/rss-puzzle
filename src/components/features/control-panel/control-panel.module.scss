@@ -1,0 +1,23 @@
+.controlPanel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toggleBtnsContainer {
+  display: flex;
+  gap: 5px;
+}
+
+.actionBtnsContainer {
+  display: flex;
+  gap: 10px;
+  height: 50px;
+  max-width: 500px;
+  width: 100%;
+
+  button {
+    text-transform: none;
+    width: 100%;
+  }
+}

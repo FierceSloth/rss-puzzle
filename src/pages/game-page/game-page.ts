@@ -1,20 +1,18 @@
 import { PuzzleBoard } from '@components/features/puzzle-board/puzzle-board';
 import { DataManager } from '@utils/data-manager';
+import { HeaderGame } from '@components/layout/header-game/header-game';
 import { Component } from '@/common/base-component';
-import { Header } from '@/components/layout/header/header';
 import type { Router } from '@/router/router';
 
 import styles from './game-page.module.scss';
+import { ControlPanel } from '@/components/features/control-panel/control-panel';
 
 export class GamePage {
   private container: Component;
-
   private router: Router;
 
   private currentLevel: number;
-
   private currentRound: number;
-
   private dataManager: DataManager;
 
   constructor(container: Component, router: Router) {
@@ -28,15 +26,18 @@ export class GamePage {
   }
 
   render(): void {
-    // ================= Header =====================
-    const header = new Header({ className: [styles.header] });
+    // ================= Game Header =====================
+    const header = new HeaderGame({ className: [styles.header] });
 
     // ================= PuzzleBoard ================
     const round = this.dataManager.getRound(this.currentLevel, this.currentRound);
-    const puzzleBoard = new PuzzleBoard({ className: [styles.puzzleBoard], round });
+    const puzzleBoard = new PuzzleBoard({ round });
+
+    // ================= ControlPanel ================
+    const controlPanel = new ControlPanel({});
 
     // ================= Containers =================
-    const pageContainer = new Component({ className: ['pageContainer', 'gameContainer'] }, puzzleBoard);
+    const pageContainer = new Component({ className: ['pageContainer', 'gameContainer'] }, puzzleBoard, controlPanel);
     this.container.appendChildren([header, pageContainer]);
   }
 

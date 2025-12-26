@@ -22,7 +22,10 @@
 
   box-shadow: 0 4px 10px rgba(49, 151, 149, 0.4);
 
-  transition: all 0.2s ease-in-out;
+  transition:
+    all 0.3s,
+    border-color 0s,
+    background-color 0s;
   user-select: none;
 
   &:hover:not(:disabled) {
@@ -37,6 +40,7 @@
   }
 
   &:disabled {
+    border-color: #b6bcc5;
     background: var(--color-text-muted);
     color: #fff;
     cursor: not-allowed;

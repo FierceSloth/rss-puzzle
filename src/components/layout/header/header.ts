@@ -10,7 +10,6 @@ interface IProps extends IComponentChild {}
 
 export class Header extends Component {
   private exitText: Component;
-
   private exitLink: Component;
 
   constructor({ className = [] }: IProps) {

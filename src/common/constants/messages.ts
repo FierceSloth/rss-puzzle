@@ -17,3 +17,9 @@ export const mainMessages = {
   secondText: 'Assemble sentences, reveal masterpieces.',
   btnText: 'Start Game',
 };
+
+export const actionBtnMessages = {
+  giveUpBtn: "I don't know",
+  checkBtn: 'Check',
+  continueBtn: 'Continue',
+};
