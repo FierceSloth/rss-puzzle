@@ -23,3 +23,9 @@ export const actionBtnMessages = {
   checkBtn: 'Check',
   continueBtn: 'Continue',
 };
+
+export const statisticsMessages = {
+  known: 'I know',
+  unknown: "I don't know",
+  btnText: 'Continue',
+};

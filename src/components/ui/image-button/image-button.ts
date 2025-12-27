@@ -3,8 +3,10 @@ import { Component } from '@common/base-component';
 
 import styles from './image-button.module.scss';
 
+type IListener = null | ((event: MouseEvent) => void);
+
 interface IProps extends IComponentChild {
-  onClick?: (event: MouseEvent) => void;
+  onClick?: IListener;
   attrs: IImageAttrs;
 }
 
@@ -15,6 +17,7 @@ interface IImageAttrs {
 
 export class ImageButton extends Component {
   private isActive: boolean;
+  private callback: IListener;
 
   constructor({ className = [], attrs, onClick }: IProps) {
     super({ className: [styles.imageButton, ...className] });
@@ -25,21 +28,37 @@ export class ImageButton extends Component {
     };
     const image = new Component({ tag: 'img', className: styles.imageBtn, attrs: imageAttrs });
 
+    this.callback = null;
     this.isActive = false;
-    this.addListener('click', (event) => {
+
+    this.append(image);
+
+    if (onClick) {
+      this.setOnClick(onClick);
+    }
+  }
+
+  setOnClick(onClick: IListener) {
+    if (this.callback) {
+      this.removeListener('click', this.callback);
+    }
+
+    this.isActive = false;
+
+    this.callback = (event) => {
       if (this.isActive) return;
 
       this.isActive = true;
 
       setTimeout(() => {
         this.isActive = false;
-      }, 2000);
+      }, 3000);
 
       if (onClick) {
         onClick(event);
       }
-    });
+    };
 
-    this.append(image);
+    this.addListener('click', this.callback);
   }
 }

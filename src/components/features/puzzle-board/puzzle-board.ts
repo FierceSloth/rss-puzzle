@@ -9,6 +9,7 @@ import { shuffleArr } from '@common/utils/random';
 import { PuzzleBoardAlts } from '@enums/enums';
 import { ImageButton } from '@/components/ui/image-button/image-button';
 import styles from './puzzle-board.module.scss';
+import { AUDIO_BASE_URL } from '@/common/constants/constants';
 
 interface IProps extends IComponentChild {
   round: IRound;
@@ -35,7 +36,6 @@ export class PuzzleBoard extends Component {
         alt: PuzzleBoardAlts.audio,
         src: playAudio,
       },
-      onClick: () => {},
     };
 
     this.translationEl = new Component({ className: styles.translateText });
@@ -60,11 +60,19 @@ export class PuzzleBoard extends Component {
     const wordsArr = currentRoundData.textExample.split(' ');
     const shuffledWord = shuffleArr(wordsArr);
 
+    this.setAudioSrc(currentRoundData.audioExample);
     this.setTranslationText(currentRoundData.textExampleTranslate);
     this.sourceField.setWords(shuffledWord);
   }
 
   private setTranslationText(text: string) {
     this.translationEl.setText(text);
+  }
+
+  private setAudioSrc(src: string) {
+    this.audioBtn.setOnClick(() => {
+      const audio = new Audio(`${AUDIO_BASE_URL}${src}`);
+      audio.play();
+    });
   }
 }

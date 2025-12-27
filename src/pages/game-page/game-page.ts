@@ -7,6 +7,7 @@ import type { Router } from '@/router/router';
 
 import styles from './game-page.module.scss';
 import { ControlPanel } from '@/components/features/control-panel/control-panel';
+import { IRound } from '@/common/types/types';
 
 export class GamePage {
   private container: Component;
@@ -30,6 +31,7 @@ export class GamePage {
     // ================= PuzzleBoard ================
     const round = dataManager.getRound(this.currentLevel, this.currentRound);
     const puzzleBoard = new PuzzleBoard({ round });
+    GamePage.simulationAddingResults(round);
 
     // ================= ControlPanel ================
     const controlPanel = new ControlPanel({});
@@ -52,4 +54,36 @@ export class GamePage {
     );
     this.container.appendChildren([header, pageContainer, devBtn]);
   }
+
+  private static simulationAddingResults(round: IRound) {
+    const paintInfo = {
+      imageSrc: round.levelData.imageSrc,
+      name: round.levelData.name,
+      author: round.levelData.author,
+      year: round.levelData.year,
+    };
+    const sentences = {
+      known: [
+        {
+          sentence: 'The students agree they have too much homework',
+          audioSrc: 'files/01_0001_example.mp3',
+        },
+        {
+          sentence: 'The students agree they have too much homework',
+          audioSrc: 'files/01_0001_example.mp3',
+        },
+      ],
+      unknown: [
+        {
+          sentence: 'The students agree they have too much homework',
+          audioSrc: 'files/01_0001_example.mp3',
+        },
+        {
+          sentence: 'The students agree they have too much homework',
+          audioSrc: 'files/01_0001_example.mp3',
+        },
+      ],
+    };
+    dataManager.setLastResults({ paintInfo, sentences });
+  } // ? Temporary Method
 }

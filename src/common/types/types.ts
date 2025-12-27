@@ -44,3 +44,25 @@ export interface IRound {
 export interface ILevel {
   rounds: IRound[];
 }
+
+// ============== Results Interfaces ==================
+
+export interface ILastResult {
+  paintInfo: IPaintInfoResult;
+  sentences: {
+    known: ISentenceResult[];
+    unknown: ISentenceResult[];
+  };
+}
+
+export interface IPaintInfoResult {
+  imageSrc: string;
+  name: string;
+  author: string;
+  year: string;
+}
+
+export interface ISentenceResult {
+  sentence: string;
+  audioSrc: string;
+}

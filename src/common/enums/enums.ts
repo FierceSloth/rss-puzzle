@@ -20,3 +20,7 @@ export enum ToggleBtnAlts {
 export enum PuzzleBoardAlts {
   audio = 'Play Audio',
 }
+
+export enum StatisticsAlts {
+  img = 'Artwork',
+}
