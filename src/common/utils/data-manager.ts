@@ -6,15 +6,23 @@ import level5 from '@data/wordCollectionLevel5.json';
 import level6 from '@data/wordCollectionLevel6.json';
 import { ILevel, IRound } from '../types/types';
 
-export class DataManager {
+class DataManager {
   private levels: ILevel[];
+  private lastResults: [] | null;
 
   constructor() {
     this.levels = [level1, level2, level3, level4, level5, level6];
+    this.lastResults = null;
   }
 
   getRound(level: number, round: number): IRound {
     const currentLevel = this.levels[level - 1];
     return currentLevel.rounds[round - 1];
   }
+
+  getLastResults() {
+    return this.lastResults;
+  }
 }
+
+export const dataManager = new DataManager();
