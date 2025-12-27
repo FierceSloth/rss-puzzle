@@ -37,7 +37,11 @@ export class GamePage {
     const controlPanel = new ControlPanel({});
 
     // ================= Containers =================
-    const pageContainer = new Component({ className: ['pageContainer', 'gameContainer'] }, puzzleBoard, controlPanel);
+    const pageContainer = new Component(
+      { className: ['pageContainer', styles.gameContainer] },
+      puzzleBoard,
+      controlPanel
+    );
     this.container.appendChildren([header, pageContainer]);
   }
 

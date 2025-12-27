@@ -1,11 +1,11 @@
 import { IComponentChild } from '@app-types/types';
-import { Component } from '@/common/base-component';
+import { BaseCard } from '@/components/ui/card/card';
 import styles from './source-field.module.scss';
 import { PuzzlePiece } from '@/components/ui/puzzle-piece/puzzle-piece';
 
 interface IProps extends IComponentChild {}
 
-export class SourceField extends Component {
+export class SourceField extends BaseCard {
   constructor({ className = [] }: IProps) {
     super({ className: [styles.sourceField, ...className] });
   }

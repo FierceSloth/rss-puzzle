@@ -2,4 +2,9 @@
   width: auto;
   height: 50px;
   border: 1px var(--color-text-main) solid;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
