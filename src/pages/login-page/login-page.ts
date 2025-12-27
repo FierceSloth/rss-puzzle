@@ -11,7 +11,6 @@ import { PagePath } from '@/common/enums/enums';
 
 export class LoginPage {
   private container: Component;
-
   private router: Router;
 
   constructor(container: Component, router: Router) {

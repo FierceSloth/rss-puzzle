@@ -10,7 +10,6 @@ import { PagePath } from '@/common/enums/enums';
 
 export class MainPage {
   private container: Component;
-
   private router: Router;
 
   constructor(container: Component, router: Router) {

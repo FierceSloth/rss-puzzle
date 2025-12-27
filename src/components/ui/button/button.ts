@@ -10,14 +10,14 @@ interface IProps extends IComponentChild {
 
 type IListener = null | ((event: MouseEvent) => void);
 
-export class Button extends Component {
+export class Button extends Component<HTMLButtonElement> {
   private listener: IListener;
 
   constructor({ className = [], children = [], type = 'button', text = '', onClick }: IProps) {
     super({ tag: 'button', text, className: [styles.button, ...className], attrs: { type } }, ...children);
 
     if (typeof onClick === 'function') {
-      super.addListener('click', onClick);
+      this.addListener('click', onClick);
       this.listener = onClick;
     } else {
       this.listener = null;

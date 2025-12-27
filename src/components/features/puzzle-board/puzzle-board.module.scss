@@ -1,0 +1,19 @@
+.puzzleBoard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.translateContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.translateText {
+  font-family: var(--font-heading);
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+}

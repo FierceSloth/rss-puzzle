@@ -9,7 +9,7 @@ $teal-600: #40cecc;
 $teal-700: #37b8b5;
 $gray-100: #fafafa;
 $gray-800: #1f2937;
-$gray-400: #9ca3af;
+$gray-400: #c0c7d4;
 $white: #ffffff;
 $green: #10b981;
 $red: #ef4444;
@@ -91,4 +91,10 @@ h3 {
   &.title-large {
     color: var(--color-primary);
   }
+}
+
+button,
+a,
+img {
+  user-select: none;
 }

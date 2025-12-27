@@ -3,7 +3,6 @@ import type { Router } from '@/router/router';
 
 export class NotFound {
   private container: Component;
-
   private router: Router;
 
   constructor(container: Component, router: Router) {

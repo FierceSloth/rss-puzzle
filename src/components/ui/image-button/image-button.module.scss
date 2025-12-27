@@ -1,0 +1,18 @@
+.imageButton {
+  cursor: pointer;
+  filter: brightness(0) saturate(100%) invert(15%) sepia(11%) saturate(1790%) hue-rotate(175deg) brightness(87%)
+    contrast(93%);
+  transition: all 0.3s;
+
+  img {
+    width: 32px;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}

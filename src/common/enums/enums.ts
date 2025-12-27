@@ -10,3 +10,13 @@ export enum ImgAlts {
   exitIcon = 'Exit',
   logoIcon = 'Logo',
 }
+
+export enum ToggleBtnAlts {
+  audio = 'audio button',
+  translate = 'translate button',
+  view = 'view button',
+}
+
+export enum PuzzleBoardAlts {
+  audio = 'Play Audio',
+}
