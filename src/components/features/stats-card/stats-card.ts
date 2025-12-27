@@ -34,11 +34,17 @@ export class StatsCard extends BaseCard {
 
     // ================== Results =====================
 
-    const knownTitle = new Component({ className: styles.title, text: statisticsMessages.known });
+    const knownTitle = new Component({
+      className: styles.title,
+      text: `${statisticsMessages.known} (${result.sentences.known.length})`,
+    });
     const knownContainer = new Component({ className: styles.sentencesContainer }, knownTitle);
     StatsCard.appendSentences(knownContainer, result.sentences.known);
 
-    const unknownTitle = new Component({ className: styles.title, text: statisticsMessages.unknown });
+    const unknownTitle = new Component({
+      className: styles.title,
+      text: `${statisticsMessages.unknown} (${result.sentences.unknown.length})`,
+    });
     const unknownContainer = new Component({ className: styles.sentencesContainer }, unknownTitle);
     StatsCard.appendSentences(unknownContainer, result.sentences.unknown);
 

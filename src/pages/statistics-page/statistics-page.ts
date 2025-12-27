@@ -21,7 +21,7 @@ export class StatisticsPage {
       this.router.navigate(PagePath.GAME);
       return;
     }
-    const statsCard = new StatsCard({ className: [styles.card], result: lastResult, router: this.router });
+    const statsCard = new StatsCard({ result: lastResult, router: this.router });
 
     const pageContainer = new Component({ className: [styles.statsContainer, 'pageContainer'] }, statsCard);
     this.container.appendChildren([pageContainer]);

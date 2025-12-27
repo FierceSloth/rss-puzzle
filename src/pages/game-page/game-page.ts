@@ -72,8 +72,28 @@ export class GamePage {
           sentence: 'The students agree they have too much homework',
           audioSrc: 'files/01_0001_example.mp3',
         },
+        {
+          sentence: 'The students agree they have too much homework',
+          audioSrc: 'files/01_0001_example.mp3',
+        },
+        {
+          sentence: 'The students agree they have too much homework',
+          audioSrc: 'files/01_0001_example.mp3',
+        },
       ],
       unknown: [
+        {
+          sentence: 'The students agree they have too much homework',
+          audioSrc: 'files/01_0001_example.mp3',
+        },
+        {
+          sentence: 'The students agree they have too much homework',
+          audioSrc: 'files/01_0001_example.mp3',
+        },
+        {
+          sentence: 'The students agree they have too much homework',
+          audioSrc: 'files/01_0001_example.mp3',
+        },
         {
           sentence: 'The students agree they have too much homework',
           audioSrc: 'files/01_0001_example.mp3',
