@@ -29,3 +29,8 @@ export const statisticsMessages = {
   unknown: "I don't know",
   btnText: 'Continue',
 };
+
+export const notFoundMessages = {
+  title: '404 Not Found',
+  btnText: 'Go to main menu',
+};

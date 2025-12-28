@@ -53,6 +53,7 @@ export class StatsCard extends BaseCard {
     // ================== Button =======================
 
     const continueBtn = new Button({
+      className: [styles.continueBtn],
       text: statisticsMessages.btnText,
       onClick: () => {
         router.navigate(PagePath.GAME);
