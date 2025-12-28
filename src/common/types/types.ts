@@ -16,6 +16,11 @@ export interface IComponentChild {
   children?: Component[];
 }
 
+export interface IUser {
+  name: string;
+  surname: string;
+}
+
 // ============== Data Interfaces =====================
 
 export interface ISentence {

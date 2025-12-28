@@ -4,11 +4,13 @@ import level3 from '@data/wordCollectionLevel3.json';
 import level4 from '@data/wordCollectionLevel4.json';
 import level5 from '@data/wordCollectionLevel5.json';
 import level6 from '@data/wordCollectionLevel6.json';
-import { ILastResult, ILevel, IRound } from '../types/types';
+import { ILastResult, ILevel, IRound, IUser } from '../types/types';
+import { LOCAL_STORAGE_KEY } from '../constants/constants';
 
 class DataManager {
   private levels: ILevel[];
   private lastResults: ILastResult | null;
+  private storageKey = LOCAL_STORAGE_KEY;
 
   constructor() {
     this.levels = [level1, level2, level3, level4, level5, level6];
@@ -26,6 +28,22 @@ class DataManager {
 
   getLastResults() {
     return this.lastResults;
+  }
+
+  setUser(user: IUser) {
+    localStorage.setItem(this.storageKey, JSON.stringify(user));
+  }
+
+  getUser(): IUser | null {
+    const data = localStorage.getItem(this.storageKey);
+    if (data) {
+      return JSON.parse(data);
+    }
+    return null;
+  }
+
+  deleteUser() {
+    localStorage.removeItem(this.storageKey);
   }
 }
 
