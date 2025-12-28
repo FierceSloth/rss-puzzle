@@ -9,6 +9,7 @@ import { loginMessages } from '@/common/constants/messages';
 import styles from './login-page.module.scss';
 import { PagePath } from '@/common/enums/enums';
 import { isLoginValid, validateName, validateSurName } from '@/common/utils/validation';
+import { dataManager } from '@/common/utils/data-manager';
 
 export class LoginPage {
   private container: Component;
@@ -50,6 +51,7 @@ export class LoginPage {
       className: [styles.loginBtn],
       text: loginMessages.btnText,
       onClick: () => {
+        dataManager.setUser({ name: nameInput.getValue(), surname: surNameInput.getValue() });
         this.router.navigate(PagePath.MAIN);
       },
     });
@@ -65,6 +67,7 @@ export class LoginPage {
 
     nameInput.addListener('input', () => {
       const result = validateName(nameInput.getValue());
+
       if (!result.isValid && result.errorMessage) {
         nameInput.setError(result.errorMessage);
         inputSuccess.name = false;
@@ -73,11 +76,12 @@ export class LoginPage {
         inputSuccess.name = true;
       }
 
-      loginBtn.node.disabled = isLoginValid([inputSuccess.name, inputSuccess.surname]);
+      loginBtn.node.disabled = !isLoginValid([inputSuccess.name, inputSuccess.surname]);
     });
 
     surNameInput.addListener('input', () => {
       const result = validateSurName(surNameInput.getValue());
+
       if (!result.isValid && result.errorMessage) {
         surNameInput.setError(result.errorMessage);
         inputSuccess.surname = false;
@@ -86,7 +90,7 @@ export class LoginPage {
         inputSuccess.surname = true;
       }
 
-      loginBtn.node.disabled = isLoginValid([inputSuccess.name, inputSuccess.surname]);
+      loginBtn.node.disabled = !isLoginValid([inputSuccess.name, inputSuccess.surname]);
     });
 
     // ================== Containers =================

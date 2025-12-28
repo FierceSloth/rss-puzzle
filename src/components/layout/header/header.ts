@@ -5,6 +5,7 @@ import { ImgAlts } from '@enums/enums';
 import { Component } from '@/common/base-component';
 
 import styles from './header.module.scss';
+import { dataManager } from '@/common/utils/data-manager';
 
 interface IProps extends IComponentChild {}
 
@@ -22,7 +23,9 @@ export class Header extends Component {
 
     const logo = new Logo({ className: [styles.logoWrapper] });
 
-    const exitText = new Component({ className: styles.exitText, text: 'User Name' });
+    const userData = dataManager.getUser();
+    const userName = `${userData?.name} ${userData?.surname}`;
+    const exitText = new Component({ className: styles.exitText, text: userName });
     const exitIcon = new Component({ tag: 'img', className: styles.exitIcon, attrs: iconAttrs });
 
     const exitContainer = new Component(

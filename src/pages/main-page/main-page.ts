@@ -7,6 +7,7 @@ import { BaseCard } from '@/components/ui/card/card';
 import { Button } from '@/components/ui/button/button';
 import { mainMessages } from '@/common/constants/messages';
 import { PagePath } from '@/common/enums/enums';
+import { dataManager } from '@/common/utils/data-manager';
 
 export class MainPage {
   private container: Component;
@@ -24,7 +25,8 @@ export class MainPage {
 
     // ================== TextContainer ===============
 
-    const userName = 'User Name'; // TODO: write the real name of the user
+    const userData = dataManager.getUser();
+    const userName = `${userData?.name} ${userData?.surname}`;
 
     const title = new Component({
       tag: 'h1',

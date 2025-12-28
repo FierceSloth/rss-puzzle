@@ -26,6 +26,12 @@ interface IValidateResult {
 }
 
 export function validateName(name: string): IValidateResult {
+  if (!startsWithUppercase(name)) {
+    return {
+      isValid: false,
+      errorMessage: validationErrorMessages.firstLetter,
+    };
+  }
   if (!hasMinLength(name, 3)) {
     return {
       isValid: false,
@@ -44,18 +50,18 @@ export function validateName(name: string): IValidateResult {
       errorMessage: validationErrorMessages.stringError,
     };
   }
-  if (!startsWithUppercase(name)) {
-    return {
-      isValid: false,
-      errorMessage: validationErrorMessages.firstLetter,
-    };
-  }
   return {
     isValid: true,
   };
 }
 
 export function validateSurName(name: string): IValidateResult {
+  if (!startsWithUppercase(name)) {
+    return {
+      isValid: false,
+      errorMessage: validationErrorMessages.firstLetter,
+    };
+  }
   if (!hasMinLength(name, 4)) {
     return {
       isValid: false,
@@ -72,12 +78,6 @@ export function validateSurName(name: string): IValidateResult {
     return {
       isValid: false,
       errorMessage: validationErrorMessages.stringError,
-    };
-  }
-  if (!startsWithUppercase(name)) {
-    return {
-      isValid: false,
-      errorMessage: validationErrorMessages.firstLetter,
     };
   }
   return {
