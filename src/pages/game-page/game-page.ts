@@ -26,7 +26,7 @@ export class GamePage {
 
   render(): void {
     // ================= Game Header =====================
-    const header = new HeaderGame({ className: [styles.header] });
+    const header = new HeaderGame({ className: [styles.header], router: this.router });
 
     // ================= PuzzleBoard ================
     const round = dataManager.getRound(this.currentLevel, this.currentRound);

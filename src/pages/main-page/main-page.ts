@@ -1,6 +1,6 @@
 import { Header } from '@components/layout/header/header';
 import { Component } from '@/common/base-component';
-import type { Router } from '@/router/router';
+import { Router } from '@/router/router';
 
 import styles from './main-page.module.scss';
 import { BaseCard } from '@/components/ui/card/card';
@@ -21,7 +21,7 @@ export class MainPage {
   render(): void {
     // ================== Header ===============
 
-    const header = new Header({ className: [styles.header] });
+    const header = new Header({ className: [styles.header], router: this.router });
 
     // ================== TextContainer ===============
 

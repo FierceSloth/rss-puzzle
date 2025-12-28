@@ -1,19 +1,22 @@
 import { IComponentChild } from '@app-types/types';
 import { Logo } from '@components/ui/logo/logo';
+import { ImgAlts, PagePath } from '@enums/enums';
 import iconImg from '@assets/images/exit.png';
-import { ImgAlts } from '@enums/enums';
 import { Component } from '@/common/base-component';
+import type { Router } from '@/router/router';
 
 import styles from './header.module.scss';
 import { dataManager } from '@/common/utils/data-manager';
 
-interface IProps extends IComponentChild {}
+interface IProps extends IComponentChild {
+  router: Router;
+}
 
 export class Header extends Component {
   private exitText: Component;
   private exitLink: Component;
 
-  constructor({ className = [] }: IProps) {
+  constructor({ className = [], router }: IProps) {
     super({ className: [styles.header, ...className], tag: 'header' });
 
     const iconAttrs = {
@@ -28,11 +31,12 @@ export class Header extends Component {
     const exitText = new Component({ className: styles.exitText, text: userName });
     const exitIcon = new Component({ tag: 'img', className: styles.exitIcon, attrs: iconAttrs });
 
-    const exitContainer = new Component(
-      { tag: 'a', className: styles.exitContainer, attrs: { href: '/' } }, // ! Then it will be a ‘button’ with onclick that calls the router.
-      exitText,
-      exitIcon
-    );
+    const exitContainer = new Component({ tag: 'button', className: styles.exitContainer }, exitText, exitIcon);
+
+    exitContainer.addListener('click', () => {
+      dataManager.deleteUser();
+      router.navigate(PagePath.LOGIN);
+    });
 
     this.appendChildren([logo, exitContainer]);
     this.exitText = exitText;
@@ -44,6 +48,6 @@ export class Header extends Component {
   }
 
   setLinkHref(href: string): void {
-    this.exitLink.setAttribute('href', href); // ! Then it will be a ‘button’ with onclick that calls the router.
+    this.exitLink.setAttribute('href', href);
   }
 }

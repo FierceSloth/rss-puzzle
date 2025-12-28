@@ -1,10 +1,11 @@
-import type { IPage } from '@app-types/types';
 import { PagePath } from '@enums/enums';
 import { GamePage } from '@pages/game-page/game-page';
 import { LoginPage } from '@pages/login-page/login-page';
 import { MainPage } from '@pages/main-page/main-page';
 import { StatisticsPage } from '@pages/statistics-page/statistics-page';
 import { NotFound } from '@pages/not-found-page/not-found';
+import type { IPage } from '@app-types/types';
+import { dataManager } from '@/common/utils/data-manager';
 import type { App } from '@/app';
 
 export class Router {
@@ -26,6 +27,25 @@ export class Router {
   }
 
   public route(path: string): void {
+    const isLogged = Boolean(dataManager.getUser());
+
+    if (!isLogged && path !== PagePath.LOGIN) {
+      this.navigate(PagePath.LOGIN);
+      return;
+    }
+
+    if (isLogged && path === PagePath.LOGIN) {
+      this.navigate(PagePath.MAIN);
+      return;
+    }
+
+    const isRoundDone = dataManager.getLastResults() !== null;
+
+    if (path === PagePath.STATISTICS && !isRoundDone) {
+      this.navigate(PagePath.GAME);
+      return;
+    }
+
     if (this.currentPath === path) return;
 
     this.currentPath = path;
@@ -40,16 +60,9 @@ export class Router {
   }
 
   public listen(): void {
-    const pathName = globalThis.location.pathname;
-
-    if (pathName === PagePath.STATISTICS) {
-      this.navigate(PagePath.GAME);
-      return;
-    }
-
     globalThis.addEventListener('popstate', () => {
       this.route(globalThis.location.pathname);
     });
-    this.route(pathName);
+    this.route(globalThis.location.pathname);
   }
 }
