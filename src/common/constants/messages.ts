@@ -34,3 +34,11 @@ export const notFoundMessages = {
   title: '404 Not Found',
   btnText: 'Go to main menu',
 };
+
+export const validationErrorMessages = {
+  firstLetter: 'First letter must be uppercase',
+  maxLength: 'Maximum length is 20 characters',
+  minNameLength: 'Minimum length is 3 characters',
+  minSurNameLength: 'Minimum length is 4 characters',
+  stringError: 'Only English letters and "-" are allowed',
+};

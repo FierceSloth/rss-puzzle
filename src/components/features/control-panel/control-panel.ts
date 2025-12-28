@@ -24,7 +24,7 @@ export class ControlPanel extends Component {
   private renderToggleButtons() {
     const toggleBtns = [
       {
-        className: [styles.translateBtn],
+        className: [],
         attrs: {
           src: translate,
           alt: ToggleBtnAlts.translate,
@@ -32,15 +32,15 @@ export class ControlPanel extends Component {
         onclick: () => {},
       },
       {
-        className: [styles.translateBtn],
+        className: [],
         attrs: {
           src: audio,
-          alt: ToggleBtnAlts.translate,
+          alt: ToggleBtnAlts.audio,
         },
         onclick: () => {},
       },
       {
-        className: [styles.translateBtn],
+        className: [],
         attrs: {
           src: view,
           alt: ToggleBtnAlts.view,
