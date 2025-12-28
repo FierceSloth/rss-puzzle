@@ -22,32 +22,32 @@ export function isValidString(name: string): boolean {
 
 interface IValidateResult {
   isValid: boolean;
-  errorMsg?: string;
+  errorMessage?: string;
 }
 
 export function validateName(name: string): IValidateResult {
   if (!hasMinLength(name, 3)) {
     return {
       isValid: false,
-      errorMsg: validationErrorMessages.minNameLength,
+      errorMessage: validationErrorMessages.minNameLength,
     };
   }
   if (!hasMaxLength(name, 20)) {
     return {
       isValid: false,
-      errorMsg: validationErrorMessages.maxLength,
+      errorMessage: validationErrorMessages.maxLength,
     };
   }
   if (!isValidString(name)) {
     return {
       isValid: false,
-      errorMsg: validationErrorMessages.stringError,
+      errorMessage: validationErrorMessages.stringError,
     };
   }
   if (!startsWithUppercase(name)) {
     return {
       isValid: false,
-      errorMsg: validationErrorMessages.firstLetter,
+      errorMessage: validationErrorMessages.firstLetter,
     };
   }
   return {
@@ -59,28 +59,32 @@ export function validateSurName(name: string): IValidateResult {
   if (!hasMinLength(name, 4)) {
     return {
       isValid: false,
-      errorMsg: validationErrorMessages.minSurNameLength,
+      errorMessage: validationErrorMessages.minSurNameLength,
     };
   }
   if (!hasMaxLength(name, 20)) {
     return {
       isValid: false,
-      errorMsg: validationErrorMessages.maxLength,
+      errorMessage: validationErrorMessages.maxLength,
     };
   }
   if (!isValidString(name)) {
     return {
       isValid: false,
-      errorMsg: validationErrorMessages.stringError,
+      errorMessage: validationErrorMessages.stringError,
     };
   }
   if (!startsWithUppercase(name)) {
     return {
       isValid: false,
-      errorMsg: validationErrorMessages.firstLetter,
+      errorMessage: validationErrorMessages.firstLetter,
     };
   }
   return {
     isValid: true,
   };
+}
+
+export function isLoginValid(values: boolean[]): boolean {
+  return values.every((isValid) => isValid);
 }

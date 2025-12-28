@@ -8,6 +8,7 @@ import { loginMessages } from '@/common/constants/messages';
 
 import styles from './login-page.module.scss';
 import { PagePath } from '@/common/enums/enums';
+import { isLoginValid, validateName, validateSurName } from '@/common/utils/validation';
 
 export class LoginPage {
   private container: Component;
@@ -34,14 +35,14 @@ export class LoginPage {
       labelText: loginMessages.nameLabel,
       placeholder: loginMessages.namePlaceholder,
     });
-    const surnameInput = new BaseInput({
+    const surNameInput = new BaseInput({
       className: [styles.input],
       type: 'text',
       labelText: loginMessages.surnameLabel,
       placeholder: loginMessages.surnamePlaceholder,
     });
 
-    const inputWrapper = new Component({ className: [styles.inputWrapper] }, nameInput, surnameInput);
+    const inputWrapper = new Component({ className: [styles.inputWrapper] }, nameInput, surNameInput);
 
     // ================== Button =================
 
@@ -53,6 +54,41 @@ export class LoginPage {
       },
     });
 
+    loginBtn.node.disabled = true;
+
+    // ================ Validation ================
+
+    const inputSuccess = {
+      name: false,
+      surname: false,
+    };
+
+    nameInput.addListener('input', () => {
+      const result = validateName(nameInput.getValue());
+      if (!result.isValid && result.errorMessage) {
+        nameInput.setError(result.errorMessage);
+        inputSuccess.name = false;
+      } else {
+        nameInput.setSuccess();
+        inputSuccess.name = true;
+      }
+
+      loginBtn.node.disabled = isLoginValid([inputSuccess.name, inputSuccess.surname]);
+    });
+
+    surNameInput.addListener('input', () => {
+      const result = validateSurName(surNameInput.getValue());
+      if (!result.isValid && result.errorMessage) {
+        surNameInput.setError(result.errorMessage);
+        inputSuccess.surname = false;
+      } else {
+        surNameInput.setSuccess();
+        inputSuccess.surname = true;
+      }
+
+      loginBtn.node.disabled = isLoginValid([inputSuccess.name, inputSuccess.surname]);
+    });
+
     // ================== Containers =================
 
     const card = new BaseCard({ className: [styles.card], children: [logoContainer, inputWrapper, loginBtn] });
@@ -60,4 +96,4 @@ export class LoginPage {
     const pageContainer = new Component({ className: ['pageContainer', styles.loginContainer] }, card);
     this.container.append(pageContainer);
   }
-} // TODO: add validation!!
+}
