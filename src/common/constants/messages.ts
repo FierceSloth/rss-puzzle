@@ -23,3 +23,14 @@ export const actionBtnMessages = {
   checkBtn: 'Check',
   continueBtn: 'Continue',
 };
+
+export const statisticsMessages = {
+  known: 'I know',
+  unknown: "I don't know",
+  btnText: 'Continue',
+};
+
+export const notFoundMessages = {
+  title: '404 Not Found',
+  btnText: 'Go to main menu',
+};

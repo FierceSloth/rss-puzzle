@@ -1,0 +1,15 @@
+.notFoundContainer {
+  min-height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}

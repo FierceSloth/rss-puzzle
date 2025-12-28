@@ -40,9 +40,16 @@ export class Router {
   }
 
   public listen(): void {
+    const pathName = globalThis.location.pathname;
+
+    if (pathName === PagePath.STATISTICS) {
+      this.navigate(PagePath.GAME);
+      return;
+    }
+
     globalThis.addEventListener('popstate', () => {
       this.route(globalThis.location.pathname);
     });
-    this.route(globalThis.location.pathname);
+    this.route(pathName);
   }
 }

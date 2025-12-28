@@ -1,0 +1,69 @@
+.card {
+  width: 600px;
+  gap: 30px;
+}
+
+.paintContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.img {
+  width: 200px;
+}
+
+.text {
+  font-size: 1.2rem;
+  font-family: var(--font-heading);
+}
+
+.resultsContainer {
+  width: 100%;
+  height: 300px;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #3333331c;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #3333335b;
+    border-radius: 0;
+  }
+}
+
+.sentencesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.sentence {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sentenceText {
+  font-weight: 600;
+}
+
+.continueBtn {
+  width: 80%;
+}
