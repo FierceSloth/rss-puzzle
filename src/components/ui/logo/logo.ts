@@ -1,6 +1,6 @@
-import { IComponentChild } from '@app-types/types';
 import puzzleIcon from '@assets/images/logo-puzzle.png';
 import { logoMessages } from '@constants/messages';
+import { IComponentChild } from '@/common/types/interfaces';
 import { Component } from '@/common/base-component';
 import { ImgAlts } from '@/common/enums/enums';
 

@@ -1,4 +1,4 @@
-import { IComponentChild } from '@app-types/types';
+import { IComponentChild } from '@/common/types/interfaces';
 import { BaseCard } from '@/components/ui/card/card';
 import styles from './source-field.module.scss';
 import { PuzzlePiece } from '@/components/ui/puzzle-piece/puzzle-piece';

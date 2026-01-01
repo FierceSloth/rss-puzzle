@@ -1,12 +1,13 @@
 import { Header } from '@components/layout/header/header';
 import { Component } from '@/common/base-component';
-import type { Router } from '@/router/router';
+import { Router } from '@/router/router';
 
 import styles from './main-page.module.scss';
 import { BaseCard } from '@/components/ui/card/card';
 import { Button } from '@/components/ui/button/button';
 import { mainMessages } from '@/common/constants/messages';
 import { PagePath } from '@/common/enums/enums';
+import { dataManager } from '@/common/utils/data-manager';
 
 export class MainPage {
   private container: Component;
@@ -20,11 +21,11 @@ export class MainPage {
   render(): void {
     // ================== Header ===============
 
-    const header = new Header({ className: [styles.header] });
+    const header = new Header({ className: [styles.header], router: this.router });
 
     // ================== TextContainer ===============
 
-    const userName = 'User Name'; // TODO: write the real name of the user
+    const userName = dataManager.getUserFullName();
 
     const title = new Component({
       tag: 'h1',
@@ -36,9 +37,9 @@ export class MainPage {
 
     // ================== Button ===============
 
-    const startBtn = new Button({
-      className: [styles.startBtn],
-      text: mainMessages.btnText,
+    const startButton = new Button({
+      className: [styles.startButton],
+      text: mainMessages.buttonText,
       onClick: () => {
         this.router.navigate(PagePath.GAME);
       },
@@ -46,7 +47,7 @@ export class MainPage {
 
     // ================== Containers ===============
 
-    const card = new BaseCard({ className: [styles.card], children: [textContainer, startBtn] });
+    const card = new BaseCard({ className: [styles.card], children: [textContainer, startButton] });
 
     const pageContainer = new Component({ className: ['pageContainer', styles.mainContainer] }, card);
     this.container.appendChildren([header, pageContainer]);

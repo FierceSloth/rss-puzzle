@@ -1,8 +1,9 @@
 .сontainer {
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: static;
   width: 100%;
+  margin-bottom: 3px;
 
   &:focus-within {
     .label {
@@ -13,6 +14,29 @@
       border-color: var(--color-primary);
     }
   }
+
+  &.error {
+    .label {
+      color: var(--color-error);
+    }
+    .input {
+      border: 2px var(--color-error) solid;
+    }
+    .errorText {
+      opacity: 1;
+    }
+  }
+  &.success {
+    .label {
+      color: var(--color-success);
+    }
+    .input {
+      border: 2px var(--color-success) solid;
+    }
+    .errorText {
+      opacity: 0;
+    }
+  }
 }
 
 .label {
@@ -21,7 +45,6 @@
   font-size: 0.75rem;
   color: var(--color-text-muted);
   font-weight: 600;
-  position: relative;
   top: 0.5rem;
   margin: 0 0 0 7px;
   padding: 0 3px;
@@ -42,8 +65,14 @@
 }
 
 .inputWrapper {
-  position: relative;
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.errorText {
+  color: var(--color-error);
+  position: absolute;
+  right: 0;
+  font-size: 0.8rem;
 }

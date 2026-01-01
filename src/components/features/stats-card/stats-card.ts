@@ -1,4 +1,3 @@
-import { IComponentChild, ILastResult, ISentenceResult } from '@app-types/types';
 import { Component } from '@common/base-component';
 import { BaseCard } from '@components/ui/card/card';
 import { ImageButton } from '@components/ui/image-button/image-button';
@@ -8,6 +7,7 @@ import playAudio from '@assets/images/play-audio.png';
 import { PagePath, PuzzleBoardAlts, StatisticsAlts } from '@enums/enums';
 import { statisticsMessages } from '@constants/messages';
 import { AUDIO_BASE_URL, IMAGE_BASE_URL } from '@constants/constants';
+import { IComponentChild, ILastResult, ISentenceResult } from '@/common/types/interfaces';
 import type { Router } from '@/router/router';
 import styles from './stats-card.module.scss';
 
@@ -52,27 +52,27 @@ export class StatsCard extends BaseCard {
 
     // ================== Button =======================
 
-    const continueBtn = new Button({
-      className: [styles.continueBtn],
-      text: statisticsMessages.btnText,
+    const continueButton = new Button({
+      className: [styles.continueButton],
+      text: statisticsMessages.buttonText,
       onClick: () => {
         router.navigate(PagePath.GAME);
       },
     });
 
-    this.appendChildren([paintContainer, resultsContainer, continueBtn]);
+    this.appendChildren([paintContainer, resultsContainer, continueButton]);
   }
 
   private static appendSentences(container: Component, sentences: ISentenceResult[]) {
     sentences.forEach((options) => {
-      const btnAttrs = {
+      const buttonAttrs = {
         alt: PuzzleBoardAlts.audio,
         src: playAudio,
       };
 
-      const audioBtn = new ImageButton({
-        className: [styles.sentenceBtn],
-        attrs: btnAttrs,
+      const audioButton = new ImageButton({
+        className: [styles.sentenceButton],
+        attrs: buttonAttrs,
         onClick: () => {
           const audio = new Audio(`${AUDIO_BASE_URL}${options.audioSrc}`);
           audio.play();
@@ -80,7 +80,7 @@ export class StatsCard extends BaseCard {
       });
       const sentenceText = new Component({ className: styles.sentenceText, text: options.sentence });
 
-      const sentenceContainer = new Component({ className: styles.sentence }, audioBtn, sentenceText);
+      const sentenceContainer = new Component({ className: styles.sentence }, audioButton, sentenceText);
       container.append(sentenceContainer);
     });
   }

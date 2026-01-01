@@ -1,4 +1,4 @@
-import { IComponentChild } from '@app-types/types';
+import { IComponentChild } from '@/common/types/interfaces';
 import { Component } from '@/common/base-component';
 import styles from './input.module.scss';
 
@@ -10,7 +10,7 @@ interface IProps extends IComponentChild {
 
 export class BaseInput extends Component {
   private inputEl: HTMLInputElement;
-  // private errorEl: HTMLElement;
+  private errorEl: HTMLElement;
 
   constructor({ className = [], type = 'text', labelText = '', placeholder = '' }: IProps) {
     super({ className: [styles.сontainer, ...className] });
@@ -30,12 +30,22 @@ export class BaseInput extends Component {
     this.appendChildren([label, inputWrapper, error]);
 
     this.inputEl = input.node;
-    // this.errorEl = error.node;
+    this.errorEl = error.node;
   }
 
   public getValue(): string {
     return this.inputEl.value;
   }
 
-  // TODO: add validation methods and error message
+  public setError(message: string) {
+    this.removeClass(styles.success);
+    this.addClass(styles.error);
+    this.errorEl.textContent = message;
+  }
+
+  public setSuccess() {
+    this.removeClass(styles.error);
+    this.errorEl.textContent = '';
+    this.addClass(styles.success);
+  }
 }
