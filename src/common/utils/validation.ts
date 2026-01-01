@@ -1,4 +1,5 @@
-import { validationErrorMessages } from '../constants/messages';
+import { stringRegex } from '@constants/constants';
+import { validationErrorMessages } from '@constants/messages';
 
 export function startsWithUppercase(name: string): boolean {
   if (!name) return false;
@@ -14,7 +15,7 @@ export function hasMaxLength(name: string, max: number): boolean {
 }
 
 export function isValidString(name: string): boolean {
-  const regex = /^[a-zA-Z]+(?:-[a-zA-Z]+)*$/;
+  const regex = stringRegex;
   return regex.test(name);
 }
 
@@ -25,61 +26,37 @@ interface IValidateResult {
   errorMessage?: string;
 }
 
-export function validateName(name: string): IValidateResult {
-  if (!startsWithUppercase(name)) {
-    return {
-      isValid: false,
-      errorMessage: validationErrorMessages.firstLetter,
-    };
-  }
-  if (!hasMinLength(name, 3)) {
-    return {
-      isValid: false,
-      errorMessage: validationErrorMessages.minNameLength,
-    };
-  }
-  if (!hasMaxLength(name, 20)) {
-    return {
-      isValid: false,
-      errorMessage: validationErrorMessages.maxLength,
-    };
-  }
-  if (!isValidString(name)) {
-    return {
-      isValid: false,
-      errorMessage: validationErrorMessages.stringError,
-    };
-  }
-  return {
-    isValid: true,
-  };
-}
+export function validateInput(name: string, minLength: number): IValidateResult {
+  const maxLength = 15;
 
-export function validateSurName(name: string): IValidateResult {
-  if (!startsWithUppercase(name)) {
-    return {
-      isValid: false,
+  const rules = [
+    {
+      condition: () => startsWithUppercase(name),
       errorMessage: validationErrorMessages.firstLetter,
-    };
-  }
-  if (!hasMinLength(name, 4)) {
-    return {
-      isValid: false,
-      errorMessage: validationErrorMessages.minSurNameLength,
-    };
-  }
-  if (!hasMaxLength(name, 20)) {
-    return {
-      isValid: false,
+    },
+    {
+      condition: () => hasMinLength(name, minLength),
+      errorMessage: `Minimum length is ${minLength} characters`,
+    },
+    {
+      condition: () => hasMaxLength(name, maxLength),
       errorMessage: validationErrorMessages.maxLength,
-    };
-  }
-  if (!isValidString(name)) {
+    },
+    {
+      condition: () => isValidString(name),
+      errorMessage: validationErrorMessages.stringError,
+    },
+  ];
+
+  const findRule = rules.find((rule) => !rule.condition());
+
+  if (findRule) {
     return {
       isValid: false,
-      errorMessage: validationErrorMessages.stringError,
+      errorMessage: findRule.errorMessage,
     };
   }
+
   return {
     isValid: true,
   };

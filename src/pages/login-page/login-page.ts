@@ -1,15 +1,15 @@
 import { Component } from '@common/base-component';
 import { BaseCard } from '@components/ui/card/card';
-import { Logo } from '@components/ui/logo/logo';
 import { BaseInput } from '@components/ui/input/input';
 import { Button } from '@components/ui/button/button';
-import type { Router } from '@/router/router';
 import { loginMessages } from '@/common/constants/messages';
+import type { Router } from '@/router/router';
 
 import styles from './login-page.module.scss';
 import { PagePath } from '@/common/enums/enums';
-import { isLoginValid, validateName, validateSurName } from '@/common/utils/validation';
+import { isLoginValid, validateInput } from '@/common/utils/validation';
 import { dataManager } from '@/common/utils/data-manager';
+import { LogoLogin } from '@/components/ui/logo-login/logo-login';
 
 export class LoginPage {
   private container: Component;
@@ -23,10 +23,7 @@ export class LoginPage {
   render(): void {
     // ================== Logo =================
 
-    const logo = new Logo({ className: [styles.logo] });
-    const secondText = new Component({ tag: 'p', className: styles.text, text: loginMessages.secondText });
-
-    const logoContainer = new Component({ className: styles.logoContainer }, logo, secondText);
+    const logo = new LogoLogin({});
 
     // =================== Inputs =================
 
@@ -47,16 +44,16 @@ export class LoginPage {
 
     // ================== Button =================
 
-    const loginBtn = new Button({
-      className: [styles.loginBtn],
-      text: loginMessages.btnText,
+    const loginButton = new Button({
+      className: [styles.loginButton],
+      text: loginMessages.buttonText,
       onClick: () => {
         dataManager.setUser({ name: nameInput.getValue(), surname: surNameInput.getValue() });
         this.router.navigate(PagePath.MAIN);
       },
     });
 
-    loginBtn.node.disabled = true;
+    loginButton.node.disabled = true;
 
     // ================ Validation ================
 
@@ -66,7 +63,7 @@ export class LoginPage {
     };
 
     nameInput.addListener('input', () => {
-      const result = validateName(nameInput.getValue());
+      const result = validateInput(nameInput.getValue(), 3);
 
       if (!result.isValid && result.errorMessage) {
         nameInput.setError(result.errorMessage);
@@ -76,11 +73,11 @@ export class LoginPage {
         inputSuccess.name = true;
       }
 
-      loginBtn.node.disabled = !isLoginValid([inputSuccess.name, inputSuccess.surname]);
+      loginButton.node.disabled = !isLoginValid([inputSuccess.name, inputSuccess.surname]);
     });
 
     surNameInput.addListener('input', () => {
-      const result = validateSurName(surNameInput.getValue());
+      const result = validateInput(surNameInput.getValue(), 4);
 
       if (!result.isValid && result.errorMessage) {
         surNameInput.setError(result.errorMessage);
@@ -90,12 +87,12 @@ export class LoginPage {
         inputSuccess.surname = true;
       }
 
-      loginBtn.node.disabled = !isLoginValid([inputSuccess.name, inputSuccess.surname]);
+      loginButton.node.disabled = !isLoginValid([inputSuccess.name, inputSuccess.surname]);
     });
 
     // ================== Containers =================
 
-    const card = new BaseCard({ className: [styles.card], children: [logoContainer, inputWrapper, loginBtn] });
+    const card = new BaseCard({ className: [styles.card], children: [logo, inputWrapper, loginButton] });
 
     const pageContainer = new Component({ className: ['pageContainer', styles.loginContainer] }, card);
     this.container.append(pageContainer);

@@ -1,5 +1,5 @@
-import { IComponentChild } from '@app-types/types';
 import { Component } from '@common/base-component';
+import { IComponentChild } from '@/common/types/interfaces';
 
 import styles from './image-button.module.scss';
 
@@ -26,7 +26,7 @@ export class ImageButton extends Component {
       src: attrs.src,
       alt: attrs.alt,
     };
-    const image = new Component({ tag: 'img', className: styles.imageBtn, attrs: imageAttrs });
+    const image = new Component({ tag: 'img', className: styles.imageButton, attrs: imageAttrs });
 
     this.callback = null;
     this.isActive = false;

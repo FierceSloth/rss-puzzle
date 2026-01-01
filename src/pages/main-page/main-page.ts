@@ -25,8 +25,7 @@ export class MainPage {
 
     // ================== TextContainer ===============
 
-    const userData = dataManager.getUser();
-    const userName = `${userData?.name} ${userData?.surname}`;
+    const userName = dataManager.getUserFullName();
 
     const title = new Component({
       tag: 'h1',
@@ -38,9 +37,9 @@ export class MainPage {
 
     // ================== Button ===============
 
-    const startBtn = new Button({
-      className: [styles.startBtn],
-      text: mainMessages.btnText,
+    const startButton = new Button({
+      className: [styles.startButton],
+      text: mainMessages.buttonText,
       onClick: () => {
         this.router.navigate(PagePath.GAME);
       },
@@ -48,7 +47,7 @@ export class MainPage {
 
     // ================== Containers ===============
 
-    const card = new BaseCard({ className: [styles.card], children: [textContainer, startBtn] });
+    const card = new BaseCard({ className: [styles.card], children: [textContainer, startButton] });
 
     const pageContainer = new Component({ className: ['pageContainer', styles.mainContainer] }, card);
     this.container.appendChildren([header, pageContainer]);

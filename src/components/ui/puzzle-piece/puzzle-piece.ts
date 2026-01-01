@@ -1,4 +1,4 @@
-import { IComponentChild } from '@app-types/types';
+import { IComponentChild } from '@/common/types/interfaces';
 import { Component } from '@/common/base-component';
 import styles from './puzzle-piece.module.scss';
 

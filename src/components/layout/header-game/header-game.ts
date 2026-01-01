@@ -1,7 +1,7 @@
-import { IComponentChild } from '@app-types/types';
 import { Header } from '@components/layout/header/header';
 import { Button } from '@components/ui/button/button';
 import { Component } from '@common/base-component';
+import { IComponentChild } from '@/common/types/interfaces';
 import type { Router } from '../../../router/router';
 
 import styles from './header-game.module.scss';

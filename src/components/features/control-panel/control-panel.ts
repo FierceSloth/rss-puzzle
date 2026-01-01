@@ -1,12 +1,12 @@
-import { IComponentChild } from '@app-types/types';
 import { ToggleButton } from '@components/ui/toggle-button/toggle-button';
 
 import view from '@assets/images/view.png';
 import audio from '@assets/images/audio.png';
 import translate from '@assets/images/translation.png';
 
-import { ToggleBtnAlts } from '@enums/enums';
-import { actionBtnMessages } from '@constants/messages';
+import { ToggleButtonAlts } from '@enums/enums';
+import { actionButtonMessages } from '@constants/messages';
+import { IComponentChild } from '@/common/types/interfaces';
 import styles from './control-panel.module.scss';
 import { Button } from '@/components/ui/button/button';
 import { Component } from '@/common/base-component';
@@ -22,12 +22,12 @@ export class ControlPanel extends Component {
   }
 
   private renderToggleButtons() {
-    const toggleBtns = [
+    const toggleButtons = [
       {
         className: [],
         attrs: {
           src: translate,
-          alt: ToggleBtnAlts.translate,
+          alt: ToggleButtonAlts.translate,
         },
         onclick: () => {},
       },
@@ -35,7 +35,7 @@ export class ControlPanel extends Component {
         className: [],
         attrs: {
           src: audio,
-          alt: ToggleBtnAlts.audio,
+          alt: ToggleButtonAlts.audio,
         },
         onclick: () => {},
       },
@@ -43,28 +43,32 @@ export class ControlPanel extends Component {
         className: [],
         attrs: {
           src: view,
-          alt: ToggleBtnAlts.view,
+          alt: ToggleButtonAlts.view,
         },
         onclick: () => {},
       },
     ];
-    const toggleBtnsContainer = new Component({ className: styles.toggleBtnsContainer });
+    const toggleButtonsContainer = new Component({ className: styles.toggleButtonsContainer });
 
-    toggleBtns.forEach((btnOption) => {
-      const toggleBtn = new ToggleButton(btnOption);
-      toggleBtnsContainer.append(toggleBtn);
+    toggleButtons.forEach((buttonOption) => {
+      const toggleButton = new ToggleButton(buttonOption);
+      toggleButtonsContainer.append(toggleButton);
     });
 
-    this.append(toggleBtnsContainer);
+    this.append(toggleButtonsContainer);
   }
 
   private renderActionButtons() {
-    const giveUpBtn = new Button({ text: actionBtnMessages.giveUpBtn, onClick: () => {} });
-    const checkBtn = new Button({ text: actionBtnMessages.checkBtn, onClick: () => {} });
+    const giveUpButton = new Button({ text: actionButtonMessages.giveUpButton, onClick: () => {} });
+    const checkButton = new Button({ text: actionButtonMessages.checkButton, onClick: () => {} });
 
-    checkBtn.node.disabled = true; // ? temporary
+    checkButton.node.disabled = true; // ? temporary
 
-    const actionBtnsContainer = new Component({ className: styles.actionBtnsContainer }, giveUpBtn, checkBtn);
-    this.append(actionBtnsContainer);
+    const actionButtonsContainer = new Component(
+      { className: styles.actionButtonsContainer },
+      giveUpButton,
+      checkButton
+    );
+    this.append(actionButtonsContainer);
   }
 }

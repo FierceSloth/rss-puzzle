@@ -4,7 +4,7 @@ import { LoginPage } from '@pages/login-page/login-page';
 import { MainPage } from '@pages/main-page/main-page';
 import { StatisticsPage } from '@pages/statistics-page/statistics-page';
 import { NotFound } from '@pages/not-found-page/not-found';
-import type { IPage } from '@app-types/types';
+import type { IPage } from '@/common/types/interfaces';
 import { dataManager } from '@/common/utils/data-manager';
 import type { App } from '@/app';
 

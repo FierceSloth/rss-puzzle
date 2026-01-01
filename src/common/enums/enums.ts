@@ -11,7 +11,7 @@ export enum ImgAlts {
   logoIcon = 'Logo',
 }
 
-export enum ToggleBtnAlts {
+export enum ToggleButtonAlts {
   audio = 'audio button',
   translate = 'translate button',
   view = 'view button',

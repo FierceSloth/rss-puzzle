@@ -18,15 +18,15 @@ export class NotFound {
 
   render(): void {
     const title = new Component({ tag: 'h1', className: styles.title, text: notFoundMessages.title });
-    const btn = new Button({
-      className: [styles.btn],
-      text: notFoundMessages.btnText,
+    const button = new Button({
+      className: [styles.button],
+      text: notFoundMessages.buttonText,
       onClick: () => {
         this.router.navigate(PagePath.MAIN);
       },
     });
 
-    const card = new BaseCard({ className: [styles.card], children: [title, btn] });
+    const card = new BaseCard({ className: [styles.card], children: [title, button] });
 
     const pageContainer = new Component({ className: [styles.notFoundContainer, 'pageContainer'] }, card);
     this.container.append(pageContainer);

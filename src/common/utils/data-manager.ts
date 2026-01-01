@@ -4,7 +4,7 @@ import level3 from '@data/wordCollectionLevel3.json';
 import level4 from '@data/wordCollectionLevel4.json';
 import level5 from '@data/wordCollectionLevel5.json';
 import level6 from '@data/wordCollectionLevel6.json';
-import { ILastResult, ILevel, IRound, IUser } from '../types/types';
+import { ILastResult, ILevel, IRound, IUser } from '../types/interfaces';
 import { LOCAL_STORAGE_KEY } from '../constants/constants';
 
 class DataManager {
@@ -40,6 +40,11 @@ class DataManager {
       return JSON.parse(data);
     }
     return null;
+  }
+
+  getUserFullName() {
+    const userData = this.getUser();
+    return `${userData?.name} ${userData?.surname}`;
   }
 
   deleteUser() {
