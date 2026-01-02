@@ -71,3 +71,10 @@ export interface ISentenceResult {
   sentence: string;
   audioSrc: string;
 }
+
+// ============== Validation Interfaces ==================
+
+export interface IValidateResult {
+  isValid: boolean;
+  errorMessage?: string;
+}

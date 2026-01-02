@@ -30,12 +30,14 @@ export class LoginPage {
       type: 'text',
       labelText: loginMessages.nameLabel,
       placeholder: loginMessages.namePlaceholder,
+      validator: (value) => validateInput(value, 3),
     });
     const surNameInput = new BaseInput({
       className: [styles.input],
       type: 'text',
       labelText: loginMessages.surnameLabel,
       placeholder: loginMessages.surnamePlaceholder,
+      validator: (value) => validateInput(value, 4),
     });
 
     const inputWrapper = new Component({ className: [styles.inputWrapper] }, nameInput, surNameInput);
@@ -55,37 +57,10 @@ export class LoginPage {
 
     // ================ Validation ================
 
-    const inputSuccess = {
-      name: false,
-      surname: false,
-    };
-
-    nameInput.addListener('input', () => {
-      const result = validateInput(nameInput.getValue(), 3);
-
-      if (!result.isValid && result.errorMessage) {
-        nameInput.setError(result.errorMessage);
-        inputSuccess.name = false;
-      } else {
-        nameInput.setSuccess();
-        inputSuccess.name = true;
-      }
-
-      loginButton.node.disabled = !isLoginValid([inputSuccess.name, inputSuccess.surname]);
-    });
-
-    surNameInput.addListener('input', () => {
-      const result = validateInput(surNameInput.getValue(), 4);
-
-      if (!result.isValid && result.errorMessage) {
-        surNameInput.setError(result.errorMessage);
-        inputSuccess.surname = false;
-      } else {
-        surNameInput.setSuccess();
-        inputSuccess.surname = true;
-      }
-
-      loginButton.node.disabled = !isLoginValid([inputSuccess.name, inputSuccess.surname]);
+    [nameInput, surNameInput].forEach((input) => {
+      input.addListener('input', () => {
+        loginButton.node.disabled = !isLoginValid([nameInput.isValid(), surNameInput.isValid()]);
+      });
     });
 
     // ================== Containers =================

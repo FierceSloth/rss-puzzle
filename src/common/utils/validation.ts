@@ -1,5 +1,6 @@
 import { stringRegex } from '@constants/constants';
 import { validationErrorMessages } from '@constants/messages';
+import { IValidateResult } from '@app-types/interfaces';
 
 export function startsWithUppercase(name: string): boolean {
   if (!name) return false;
@@ -20,11 +21,6 @@ export function isValidString(name: string): boolean {
 }
 
 // ============ Main Functions ==================
-
-interface IValidateResult {
-  isValid: boolean;
-  errorMessage?: string;
-}
 
 export function validateInput(name: string, minLength: number): IValidateResult {
   const maxLength = 15;
