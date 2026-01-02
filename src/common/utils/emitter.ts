@@ -1,27 +1,25 @@
-// class EventEmitter {
-//   constructor() {
-//     this.events = {};
-//   }
+type Listener<T = unknown> = (data: T) => void;
 
-//   on(event, listener) {
-//     if (!this.events[event]) this.events[event] = [];
-//     this.events[event].push(listener);
-//   }
+class EventEmitter {
+  private events: Record<string, Listener[]> = {};
 
-//   off(event, listener) {
-//     if (!this.events[event]) return;
-//     this.events[event] = this.events[event].filter((l) => l !== listener);
-//   }
+  on<T>(event: string, listener: Listener<T>) {
+    if (!this.events[event]) {
+      this.events[event] = [];
+    }
+    this.events[event].push(listener as Listener);
+  }
 
-//   emit(event, data) {
-//     if (!this.events[event]) return;
-//     this.events[event].forEach((listener) => listener(data));
-//   }
+  off<T>(event: string, listener: Listener<T>) {
+    if (!this.events[event]) return;
+    this.events[event] = this.events[event].filter((l) => l !== (listener as Listener));
+  }
 
-//   clear() {
-//     this.events = {};
-//   }
-// }
+  emit<T>(event: string, data: T) {
+    if (!this.events[event]) return;
+    this.events[event].forEach((listener) => listener(data));
+  }
+}
 
-// export const emitter = new EventEmitter();
-// export const appEmitter = new EventEmitter();
+export const appEmitter = new EventEmitter();
+export const gameEmitter = new EventEmitter();
