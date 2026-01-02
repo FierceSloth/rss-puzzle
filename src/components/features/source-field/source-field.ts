@@ -1,7 +1,7 @@
-import { IComponentChild } from '@/common/types/interfaces';
+import { IComponentChild, IPuzzleWord } from '@/common/types/interfaces';
 import { BaseCard } from '@/components/ui/card/card';
 import styles from './source-field.module.scss';
-import { PuzzlePiece } from '@/components/ui/puzzle-piece/puzzle-piece';
+import { PuzzlePiece } from '@/components/features/puzzle-piece/puzzle-piece';
 
 interface IProps extends IComponentChild {}
 
@@ -10,10 +10,10 @@ export class SourceField extends BaseCard {
     super({ className: [styles.sourceField, ...className] });
   }
 
-  setWords(arr: string[]): void {
+  renderWords(wordArr: IPuzzleWord[]): void {
     this.destroyChildren();
-    arr.forEach((word) => {
-      this.append(new PuzzlePiece({ word }));
+    wordArr.forEach((wordObj) => {
+      this.append(new PuzzlePiece({ word: wordObj.word, id: wordObj.id, clickEventName: 'game:source-word-click' }));
     });
   }
 }

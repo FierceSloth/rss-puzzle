@@ -1,5 +1,11 @@
 import type { Component } from '@common/base-component';
 
+export type EmitterEvents =
+  | 'router:navigate'
+  | 'game:source-word-click'
+  | 'game:result-word-click'
+  | 'game:sentence-end';
+
 export interface IPage {
   render: () => void;
 }
@@ -77,4 +83,15 @@ export interface ISentenceResult {
 export interface IValidateResult {
   isValid: boolean;
   errorMessage?: string;
+}
+
+// =============== Game Interfaces =======================
+
+export interface IPuzzleWord {
+  word: string;
+  id: string;
+  position: {
+    x: number;
+    y: number;
+  };
 }

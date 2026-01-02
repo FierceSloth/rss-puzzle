@@ -10,6 +10,7 @@ import { IComponentChild } from '@/common/types/interfaces';
 import styles from './control-panel.module.scss';
 import { Button } from '@/components/ui/button/button';
 import { Component } from '@/common/base-component';
+import { gameEmitter } from '@/common/utils/emitter';
 
 interface IProps extends IComponentChild {}
 
@@ -70,5 +71,9 @@ export class ControlPanel extends Component {
       checkButton
     );
     this.append(actionButtonsContainer);
+
+    gameEmitter.on<boolean>('game:sentence-end', (condition) => {
+      checkButton.node.disabled = condition;
+    });
   }
 }
