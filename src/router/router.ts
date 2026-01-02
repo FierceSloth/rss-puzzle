@@ -4,8 +4,9 @@ import { LoginPage } from '@pages/login-page/login-page';
 import { MainPage } from '@pages/main-page/main-page';
 import { StatisticsPage } from '@pages/statistics-page/statistics-page';
 import { NotFound } from '@pages/not-found-page/not-found';
-import type { IPage } from '@/common/types/interfaces';
 import { dataManager } from '@/common/utils/data-manager';
+import { appEmitter } from '@/common/utils/emitter';
+import type { IPage } from '@/common/types/interfaces';
 import type { App } from '@/app';
 
 export class Router {
@@ -17,13 +18,17 @@ export class Router {
 
   constructor(app: App) {
     this.pages = {
-      [PagePath.LOGIN]: new LoginPage(app.container, this),
-      [PagePath.MAIN]: new MainPage(app.container, this),
-      [PagePath.GAME]: new GamePage(app.container, this),
-      [PagePath.STATISTICS]: new StatisticsPage(app.container, this),
-      [PagePath.NOT_FOUND]: new NotFound(app.container, this),
+      [PagePath.LOGIN]: new LoginPage(app.container),
+      [PagePath.MAIN]: new MainPage(app.container),
+      [PagePath.GAME]: new GamePage(app.container),
+      [PagePath.STATISTICS]: new StatisticsPage(app.container),
+      [PagePath.NOT_FOUND]: new NotFound(app.container),
     };
     this.app = app;
+
+    appEmitter.on<PagePath>('router:navigate', (page) => {
+      this.navigate(page);
+    });
   }
 
   public route(path: string): void {

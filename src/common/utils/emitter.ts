@@ -1,21 +1,23 @@
+type EventName = 'router:navigate'; // ? will expand
+
 type Listener<T = unknown> = (data: T) => void;
 
 class EventEmitter {
-  private events: Record<string, Listener[]> = {};
+  private events: Partial<Record<EventName, Listener[]>> = {};
 
-  on<T>(event: string, listener: Listener<T>) {
+  on<T>(event: EventName, listener: Listener<T>) {
     if (!this.events[event]) {
       this.events[event] = [];
     }
     this.events[event].push(listener as Listener);
   }
 
-  off<T>(event: string, listener: Listener<T>) {
+  off<T>(event: EventName, listener: Listener<T>) {
     if (!this.events[event]) return;
     this.events[event] = this.events[event].filter((l) => l !== (listener as Listener));
   }
 
-  emit<T>(event: string, data: T) {
+  emit<T>(event: EventName, data: T) {
     if (!this.events[event]) return;
     this.events[event].forEach((listener) => listener(data));
   }

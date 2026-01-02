@@ -1,27 +1,25 @@
 import { Header } from '@components/layout/header/header';
 import { Component } from '@/common/base-component';
-import { Router } from '@/router/router';
-
-import styles from './main-page.module.scss';
 import { BaseCard } from '@/components/ui/card/card';
 import { Button } from '@/components/ui/button/button';
 import { mainMessages } from '@/common/constants/messages';
 import { PagePath } from '@/common/enums/enums';
 import { dataManager } from '@/common/utils/data-manager';
+import { appEmitter } from '@/common/utils/emitter';
+
+import styles from './main-page.module.scss';
 
 export class MainPage {
   private container: Component;
-  private router: Router;
 
-  constructor(container: Component, router: Router) {
+  constructor(container: Component) {
     this.container = container;
-    this.router = router;
   }
 
   render(): void {
     // ================== Header ===============
 
-    const header = new Header({ className: [styles.header], router: this.router });
+    const header = new Header({ className: [styles.header] });
 
     // ================== TextContainer ===============
 
@@ -41,7 +39,7 @@ export class MainPage {
       className: [styles.startButton],
       text: mainMessages.buttonText,
       onClick: () => {
-        this.router.navigate(PagePath.GAME);
+        appEmitter.emit('router:navigate', PagePath.GAME);
       },
     });
 

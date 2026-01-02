@@ -3,21 +3,19 @@ import { BaseCard } from '@components/ui/card/card';
 import { BaseInput } from '@components/ui/input/input';
 import { Button } from '@components/ui/button/button';
 import { loginMessages } from '@/common/constants/messages';
-import type { Router } from '@/router/router';
 
 import styles from './login-page.module.scss';
 import { PagePath } from '@/common/enums/enums';
 import { isLoginValid, validateInput } from '@/common/utils/validation';
 import { dataManager } from '@/common/utils/data-manager';
 import { LogoLogin } from '@/components/ui/logo-login/logo-login';
+import { appEmitter } from '@/common/utils/emitter';
 
 export class LoginPage {
   private container: Component;
-  private router: Router;
 
-  constructor(container: Component, router: Router) {
+  constructor(container: Component) {
     this.container = container;
-    this.router = router;
   }
 
   render(): void {
@@ -49,7 +47,7 @@ export class LoginPage {
       text: loginMessages.buttonText,
       onClick: () => {
         dataManager.setUser({ name: nameInput.getValue(), surname: surNameInput.getValue() });
-        this.router.navigate(PagePath.MAIN);
+        appEmitter.emit('router:navigate', PagePath.MAIN);
       },
     });
 

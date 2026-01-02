@@ -1,15 +1,12 @@
 import { IComponentChild } from '@/common/types/interfaces';
 import { Component } from '@/common/base-component';
 import styles from './game-board.module.scss';
-import type { Router } from '@/router/router';
 import { dataManager } from '@/common/utils/data-manager';
 import { PuzzleBoard } from '../puzzle-board/puzzle-board';
 import { simulationAddingResults } from '@/common/utils/simulationResult';
 import { ControlPanel } from '../control-panel/control-panel';
 
-interface IProps extends IComponentChild {
-  router: Router;
-}
+interface IProps extends IComponentChild {}
 
 export class GameBoard extends Component {
   private currentLevel: number;

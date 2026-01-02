@@ -1,27 +1,26 @@
 import { HeaderGame } from '@components/layout/header-game/header-game';
-import { Component } from '@/common/base-component';
-import { Button } from '@/components/ui/button/button';
-import type { Router } from '@/router/router';
+import { Component } from '@common/base-component';
+import { Button } from '@components/ui/button/button';
+import { appEmitter } from '@utils/emitter';
+import { PagePath } from '@enums/enums';
 
 import styles from './game-page.module.scss';
 import { GameBoard } from '@/components/features/game-board/game-board';
 
 export class GamePage {
   private container: Component;
-  private router: Router;
 
-  constructor(container: Component, router: Router) {
+  constructor(container: Component) {
     this.container = container;
-    this.router = router;
   }
 
   render(): void {
     // ================= Game Header =====================
-    const header = new HeaderGame({ className: [styles.header], router: this.router });
+    const header = new HeaderGame({ className: [styles.header] });
 
     // ================= GameBoard ================
 
-    const gameBoard = new GameBoard({ router: this.router });
+    const gameBoard = new GameBoard({});
 
     // ============ Temporary Dev Button ===============
 
@@ -29,7 +28,7 @@ export class GamePage {
       className: [styles.devButton],
       text: 'DEV: Go to Statistics',
       onClick: () => {
-        this.router.navigate('/statistics');
+        appEmitter.emit('router:navigate', PagePath.STATISTICS);
       },
     });
 
