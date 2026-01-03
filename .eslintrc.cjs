@@ -23,6 +23,7 @@ module.exports = {
   noInlineConfig: true,
   rules: {
     'lines-between-class-members': 'off',
+    'no-param-reassign': ['off'],
     '@typescript-eslint/lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
     'prettier/prettier': 'error',
     'import/extensions': 'off',

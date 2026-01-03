@@ -13,7 +13,14 @@ export class SourceField extends BaseCard {
   renderWords(wordArr: IPuzzleWord[]): void {
     this.destroyChildren();
     wordArr.forEach((wordObj) => {
-      this.append(new PuzzlePiece({ word: wordObj.word, id: wordObj.id, clickEventName: 'game:source-word-click' }));
+      this.append(
+        new PuzzlePiece({
+          word: wordObj.word,
+          width: wordObj.width,
+          id: wordObj.id,
+          clickEventName: 'game:source-word-click',
+        })
+      );
     });
   }
 }

@@ -8,6 +8,7 @@ import styles from './result-board.module.scss';
 interface IProps extends IComponentChild {}
 
 export class ResultBoard extends BaseCard {
+  private rowsNumber = 10;
   private rows: Component[];
 
   constructor({ className = [] }: IProps) {
@@ -19,7 +20,7 @@ export class ResultBoard extends BaseCard {
   }
 
   renderRows() {
-    for (let i = 0; i < 10; i += 1) {
+    for (let i = 0; i < this.rowsNumber; i += 1) {
       const row = new Component({ className: styles.row });
       this.rows.push(row);
       this.append(row);
@@ -31,7 +32,13 @@ export class ResultBoard extends BaseCard {
     currentRow.destroyChildren();
     wordArr.forEach((wordObj) => {
       currentRow.append(
-        new PuzzlePiece({ word: wordObj.word, id: wordObj.id, clickEventName: 'game:result-word-click' })
+        new PuzzlePiece({
+          word: wordObj.word,
+          width: wordObj.width,
+          status: wordObj.status,
+          id: wordObj.id,
+          clickEventName: 'game:result-word-click',
+        })
       );
     });
   }

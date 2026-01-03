@@ -61,7 +61,12 @@ export class ControlPanel extends Component {
 
   private renderActionButtons() {
     const giveUpButton = new Button({ text: actionButtonMessages.giveUpButton, onClick: () => {} });
-    const checkButton = new Button({ text: actionButtonMessages.checkButton, onClick: () => {} });
+    const checkButton = new Button({
+      text: actionButtonMessages.checkButton,
+      onClick: () => {
+        gameEmitter.emit('game:sentence-check', '');
+      },
+    });
 
     checkButton.node.disabled = true; // ? temporary
 
@@ -73,7 +78,7 @@ export class ControlPanel extends Component {
     this.append(actionButtonsContainer);
 
     gameEmitter.on<boolean>('game:sentence-end', (condition) => {
-      checkButton.node.disabled = condition;
+      checkButton.node.disabled = !condition;
     });
   }
 }

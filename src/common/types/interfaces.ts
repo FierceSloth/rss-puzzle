@@ -4,7 +4,8 @@ export type EmitterEvents =
   | 'router:navigate'
   | 'game:source-word-click'
   | 'game:result-word-click'
-  | 'game:sentence-end';
+  | 'game:sentence-end'
+  | 'game:sentence-check';
 
 export interface IPage {
   render: () => void;
@@ -87,9 +88,13 @@ export interface IValidateResult {
 
 // =============== Game Interfaces =======================
 
+export type PuzzleStatus = 'success' | 'error' | '';
+
 export interface IPuzzleWord {
   word: string;
   id: string;
+  width: number;
+  status?: PuzzleStatus;
   position: {
     x: number;
     y: number;

@@ -1,10 +1,13 @@
 .puzzlePiece {
-  width: auto;
+  display: inline-flex;
+  white-space: nowrap;
   height: 50px;
   border: 1px var(--color-text-main) solid;
+  background-color: #fff;
 
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  transition: all 0.3s;
 }
