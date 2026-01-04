@@ -4,13 +4,13 @@ import view from '@assets/images/view.png';
 import audio from '@assets/images/audio.png';
 import translate from '@assets/images/translation.png';
 
-import { ToggleButtonAlts } from '@enums/enums';
+import { PagePath, ToggleButtonAlts } from '@enums/enums';
 import { actionButtonMessages } from '@constants/messages';
 import { IComponentChild } from '@/common/types/interfaces';
 import styles from './control-panel.module.scss';
 import { Button } from '@/components/ui/button/button';
 import { Component } from '@/common/base-component';
-import { gameEmitter } from '@/common/utils/emitter';
+import { appEmitter, gameEmitter } from '@/common/utils/emitter';
 
 interface IProps extends IComponentChild {}
 
@@ -60,7 +60,12 @@ export class ControlPanel extends Component {
   }
 
   private renderActionButtons() {
-    const giveUpButton = new Button({ text: actionButtonMessages.giveUpButton, onClick: () => {} });
+    const giveUpButton = new Button({
+      text: actionButtonMessages.giveUpButton,
+      onClick: () => {
+        gameEmitter.emit('game:auto-complete', '');
+      },
+    });
     const checkButton = new Button({
       text: actionButtonMessages.checkButton,
       onClick: () => {
@@ -68,7 +73,7 @@ export class ControlPanel extends Component {
       },
     });
 
-    checkButton.node.disabled = true; // ? temporary
+    checkButton.node.disabled = true;
 
     const actionButtonsContainer = new Component(
       { className: styles.actionButtonsContainer },
@@ -78,7 +83,24 @@ export class ControlPanel extends Component {
     this.append(actionButtonsContainer);
 
     gameEmitter.on<boolean>('game:sentence-end', (condition) => {
-      checkButton.node.disabled = !condition;
+      ControlPanel.sentenceEnd(checkButton, condition);
     });
+
+    gameEmitter.on('game:round-complete', () => {
+      ControlPanel.roundComplete(checkButton);
+    });
+  }
+
+  private static roundComplete(button: Button) {
+    button.node.textContent = 'Statistics';
+    button.removeClickListener();
+
+    button.addListener('click', () => {
+      appEmitter.emit('router:navigate', PagePath.STATISTICS);
+    });
+  }
+
+  private static sentenceEnd(button: Button, condition: boolean) {
+    button.node.disabled = !condition;
   }
 }

@@ -19,6 +19,7 @@ interface IProps extends IComponentChild {
 export class PuzzleBoard extends Component {
   private round: IRound;
   private currentSentenceIndex: number = 0;
+  private isAutoCompleted: boolean = false;
 
   private currentSourceWords: IPuzzleWord[] = [];
   private currentResultWords: IPuzzleWord[] = [];
@@ -74,14 +75,14 @@ export class PuzzleBoard extends Component {
     this.currentSourceWords = shuffleArr(this.correctSentence);
     this.currentResultWords = [];
 
-    this.setupSentenceTranslate(currentRoundData);
+    this.setupTranslate(currentRoundData);
 
     this.renderBoards();
 
     this.subscribeToEvents();
   }
 
-  private setupSentenceTranslate(roundData: ISentence) {
+  private setupTranslate(roundData: ISentence) {
     this.setupAudio(roundData.audioExample);
     this.setTranslationText(roundData.textExampleTranslate);
   }
@@ -108,13 +109,15 @@ export class PuzzleBoard extends Component {
     }, 0);
 
     if (isEqualLength && errorCount === 0) {
-      this.gameResults.known.push({
-        sentence: correct.map((word) => word.word).join(''),
-        audioSrc: this.getRoundData().audioExample,
-      });
-
+      if (!this.isAutoCompleted) {
+        this.saveSentenceResult('known');
+      }
+      this.isAutoCompleted = false;
       this.currentSentenceIndex += 1;
-      this.initSentence();
+
+      if (!this.checkCompletion()) {
+        this.initSentence();
+      }
     } else {
       correctWords.forEach((wordObj) => {
         wordObj.status = PuzzlePieceStatus.SUCCESS;
@@ -127,6 +130,19 @@ export class PuzzleBoard extends Component {
       this.renderBoards();
       this.resetHighlighting();
     }
+  }
+
+  private autoCompleteSentence() {
+    this.currentResultWords = [];
+    this.currentSourceWords = [];
+
+    this.currentResultWords.push(...this.correctSentence);
+
+    this.saveSentenceResult('unknown');
+    this.isAutoCompleted = true;
+
+    this.renderBoards();
+    this.checkSentence();
   }
 
   private movePuzzlePiece(words: IPuzzleWord[], id: string) {
@@ -142,6 +158,15 @@ export class PuzzleBoard extends Component {
     }
 
     this.renderBoards();
+  }
+
+  private checkCompletion(): boolean {
+    if (this.currentSentenceIndex === this.round.words.length) {
+      gameEmitter.emit<IGroupResult>('game:send-results', this.gameResults);
+      gameEmitter.emit('game:round-complete', '');
+      return true;
+    }
+    return false;
   }
 
   // ? =============== Rendering ====================
@@ -202,6 +227,13 @@ export class PuzzleBoard extends Component {
     });
   }
 
+  private saveSentenceResult(status: 'known' | 'unknown') {
+    this.gameResults[status].push({
+      sentence: this.correctSentence.map((word) => word.word).join(' '),
+      audioSrc: this.getRoundData().audioExample,
+    });
+  }
+
   // ? ================ Emitter ======================
 
   private subscribeToEvents(): this {
@@ -214,6 +246,9 @@ export class PuzzleBoard extends Component {
     gameEmitter.on('game:sentence-check', () => {
       this.checkSentence();
     });
+    gameEmitter.on('game:auto-complete', () => {
+      this.autoCompleteSentence();
+    });
     return this;
   }
 
@@ -221,6 +256,7 @@ export class PuzzleBoard extends Component {
     gameEmitter.clear('game:result-word-click');
     gameEmitter.clear('game:source-word-click');
     gameEmitter.clear('game:sentence-check');
+    gameEmitter.clear('game:auto-complete');
     return this;
   }
 }

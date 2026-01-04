@@ -6,6 +6,8 @@ export type EmitterEvents =
   | 'game:result-word-click'
   | 'game:sentence-end'
   | 'game:sentence-check'
+  | 'game:auto-complete'
+  | 'game:round-complete'
   | 'game:send-results';
 
 export interface IPage {
