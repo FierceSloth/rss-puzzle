@@ -6,6 +6,11 @@ export enum PagePath {
   NOT_FOUND = '/not-found',
 }
 
+export enum PuzzlePieceStatus {
+  SUCCESS = 'success',
+  ERROR = 'error',
+}
+
 export enum ImgAlts {
   exitIcon = 'Exit',
   logoIcon = 'Logo',

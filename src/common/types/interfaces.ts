@@ -5,7 +5,8 @@ export type EmitterEvents =
   | 'game:source-word-click'
   | 'game:result-word-click'
   | 'game:sentence-end'
-  | 'game:sentence-check';
+  | 'game:sentence-check'
+  | 'game:send-results';
 
 export interface IPage {
   render: () => void;
@@ -61,10 +62,12 @@ export interface ILevel {
 
 export interface ILastResult {
   paintInfo: IPaintInfoResult;
-  sentences: {
-    known: ISentenceResult[];
-    unknown: ISentenceResult[];
-  };
+  sentences: IGroupResult;
+}
+
+export interface IGroupResult {
+  known: ISentenceResult[];
+  unknown: ISentenceResult[];
 }
 
 export interface IPaintInfoResult {
