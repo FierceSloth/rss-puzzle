@@ -4,6 +4,7 @@ import styles from './source-field.module.scss';
 import { PuzzlePiece } from '@/components/features/puzzle-piece/puzzle-piece';
 
 interface IProps extends IComponentChild {}
+const paddings = 40;
 
 export class SourceField extends BaseCard {
   constructor({ className = [] }: IProps) {
@@ -19,6 +20,8 @@ export class SourceField extends BaseCard {
           width: wordObj.width,
           id: wordObj.id,
           clickEventName: 'game:source-word-click',
+          background: wordObj.background,
+          containerWidth: this.node.clientWidth - paddings,
         })
       );
     });

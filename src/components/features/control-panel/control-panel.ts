@@ -92,7 +92,7 @@ export class ControlPanel extends Component {
   }
 
   private static roundComplete(button: Button) {
-    button.node.textContent = 'Statistics';
+    button.node.textContent = actionButtonMessages.continueButton;
     button.removeClickListener();
 
     button.addListener('click', () => {

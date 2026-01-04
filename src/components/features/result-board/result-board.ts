@@ -38,6 +38,8 @@ export class ResultBoard extends BaseCard {
           status: wordObj.status,
           id: wordObj.id,
           clickEventName: 'game:result-word-click',
+          background: wordObj.background,
+          containerWidth: currentRow.node.clientWidth,
         })
       );
     });

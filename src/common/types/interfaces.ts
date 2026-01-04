@@ -100,8 +100,14 @@ export interface IPuzzleWord {
   id: string;
   width: number;
   status?: PuzzleStatus;
-  position: {
-    x: number;
-    y: number;
-  };
+
+  background: IPuzzleBackground;
+}
+
+export interface IPuzzleBackground {
+  url: string;
+  widthPercent: number;
+  offsetX: number;
+  y: number;
+  totalRows: number;
 }

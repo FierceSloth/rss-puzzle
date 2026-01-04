@@ -11,6 +11,7 @@ import { ImageButton } from '@/components/ui/image-button/image-button';
 import styles from './puzzle-board.module.scss';
 import { AUDIO_BASE_URL } from '@/common/constants/constants';
 import { gameEmitter } from '@/common/utils/emitter';
+import { IMAGE_BASE_URL } from '../../../common/constants/constants';
 
 interface IProps extends IComponentChild {
   round: IRound;
@@ -61,7 +62,9 @@ export class PuzzleBoard extends Component {
 
     this.appendChildren([translateContainer, this.resultBoard, this.sourceField]);
 
-    this.initSentence();
+    setTimeout(() => {
+      this.initSentence();
+    }, 0);
   }
 
   // ? ========= Initializations Methods ============
@@ -111,6 +114,8 @@ export class PuzzleBoard extends Component {
     if (isEqualLength && errorCount === 0) {
       if (!this.isAutoCompleted) {
         this.saveSentenceResult('known');
+      } else {
+        this.saveSentenceResult('unknown');
       }
       this.isAutoCompleted = false;
       this.currentSentenceIndex += 1;
@@ -138,11 +143,9 @@ export class PuzzleBoard extends Component {
 
     this.currentResultWords.push(...this.correctSentence);
 
-    this.saveSentenceResult('unknown');
     this.isAutoCompleted = true;
 
     this.renderBoards();
-    this.checkSentence();
   }
 
   private movePuzzlePiece(words: IPuzzleWord[], id: string) {
@@ -201,22 +204,32 @@ export class PuzzleBoard extends Component {
   private getSentencesData(): IPuzzleWord[] {
     const roundData = this.getRoundData();
     const correctSentence = roundData.textExample.split(' ');
+    const totalLength = correctSentence.join('').length;
+
+    const totalRows = this.round.words.length;
+    const imageUrl = `${IMAGE_BASE_URL}${this.round.levelData.imageSrc}`;
+    let currentOffset = 0;
 
     return correctSentence.map((word, index) => {
-      const totalLength = correctSentence.join('').length;
       const widthPercent = (word.length / totalLength) * 100;
-
       const puzzleId = `word-${index}-${this.currentSentenceIndex}`;
 
-      return {
+      const wordObj = {
         word,
         id: puzzleId,
         width: widthPercent,
-        position: {
-          x: index,
+
+        background: {
+          url: imageUrl,
+          widthPercent,
+          offsetX: currentOffset,
           y: this.currentSentenceIndex,
+          totalRows,
         },
       };
+
+      currentOffset += widthPercent;
+      return wordObj;
     });
   }
 
