@@ -4,51 +4,125 @@ import level3 from '@data/wordCollectionLevel3.json';
 import level4 from '@data/wordCollectionLevel4.json';
 import level5 from '@data/wordCollectionLevel5.json';
 import level6 from '@data/wordCollectionLevel6.json';
-import { ILastResult, ILevel, IRound, IUser } from '../types/interfaces';
-import { LOCAL_STORAGE_KEY } from '../constants/constants';
+import { LOCAL_STORAGE_KEY } from '@constants/constants';
+import { ILastResult, ILevel, IRound, IUser, IGameState, IAppSettings } from '@app-types/interfaces';
 
 class DataManager {
   private levels: ILevel[];
-  private lastResults: ILastResult | null;
-  private storageKey = LOCAL_STORAGE_KEY;
+  private state: IGameState;
+  private storageKey: string;
 
   constructor() {
+    this.storageKey = LOCAL_STORAGE_KEY;
+
     this.levels = [level1, level2, level3, level4, level5, level6];
-    this.lastResults = null;
+
+    this.state = this.loadState();
   }
+
+  // ? ============= Core Logic ======================
+
+  private loadState(): IGameState {
+    const saved = localStorage.getItem(this.storageKey);
+    if (saved) {
+      return JSON.parse(saved);
+    }
+    return DataManager.getInitialState();
+  }
+
+  private saveData() {
+    localStorage.setItem(this.storageKey, JSON.stringify(this.state));
+  }
+
+  private static getInitialState(): IGameState {
+    return {
+      settings: {
+        translate: true,
+        audio: true,
+        view: true,
+      },
+      user: {
+        name: '',
+        surname: '',
+      },
+      completedRounds: {
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+        6: [],
+      },
+      lastGameResult: null,
+    };
+  }
+
+  resetLocalStorage() {
+    localStorage.removeItem(this.storageKey);
+    this.state = this.getInitialState();
+  }
+
+  // ? =============== Level Logic =====================
 
   getRound(level: number, round: number): IRound {
     const currentLevel = this.levels[level - 1];
-    return currentLevel.rounds[round - 1];
+    const currentRound = currentLevel.rounds[round - 1];
+
+    return currentRound;
   }
 
-  setLastResults(data: ILastResult) {
-    this.lastResults = data;
-  }
-
-  getLastResults() {
-    return this.lastResults;
-  }
+  // ? =============== User Management =================
 
   setUser(user: IUser) {
-    localStorage.setItem(this.storageKey, JSON.stringify(user));
+    this.state.user = user;
+    this.saveData();
   }
 
-  getUser(): IUser | null {
-    const data = localStorage.getItem(this.storageKey);
-    if (data) {
-      return JSON.parse(data);
+  getUser(): IUser {
+    return this.state.user;
+  }
+
+  getUserFullName(): string {
+    const { name, surname } = this.state.user;
+    return `${name} ${surname}`.trim();
+  }
+
+  // ? ================= Settings (Hints) =================
+
+  getSettings(): IAppSettings {
+    return this.state.settings;
+  }
+
+  getSetting(key: keyof IAppSettings): boolean {
+    return this.state.settings[key];
+  }
+
+  setSetting(key: keyof IAppSettings, value: boolean) {
+    this.state.settings[key] = value;
+    this.saveData();
+  }
+
+  // ? ================= Progress & Results =================
+
+  markRoundAsCompleted(level: number, round: number) {
+    const completed = this.state.completedRounds[level];
+    if (!completed.includes(round)) {
+      completed.push(round);
+      this.saveData();
     }
-    return null;
   }
 
-  getUserFullName() {
-    const userData = this.getUser();
-    return `${userData?.name} ${userData?.surname}`;
+  isRoundCompleted(level: number, round: number): boolean {
+    return this.state.completedRounds[level]?.includes(round) || false;
   }
 
-  deleteUser() {
-    localStorage.removeItem(this.storageKey);
+  setLastResults(result: ILastResult) {
+    this.state.lastGameResult = result;
+    this.saveData();
+  }
+
+  getLastResults(): ILastResult | null {
+    return this.state.lastGameResult;
   }
 }
 

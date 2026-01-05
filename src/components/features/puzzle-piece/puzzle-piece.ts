@@ -42,7 +42,7 @@ export class PuzzlePiece extends Component {
       setTimeout(() => this.removeClass(status), 2000);
     }
 
-    if (background) {
+    if (background.isOn) {
       const pieceHeight = 50;
       const verticalOffset = (pieceHeight - 16) / 2;
       const earOverlap = 8;
@@ -64,10 +64,15 @@ export class PuzzlePiece extends Component {
       puzzleEar.node.style.backgroundImage = bgImageValue;
       puzzleEar.node.style.backgroundSize = bgSizeValue;
       puzzleEar.node.style.backgroundPosition = `-${earXShift}px -${bgOffsetY + verticalOffset}px`;
+    } else {
+      this.addClass(styles.hide);
+    }
 
-      if (background.offsetX !== 0) {
-        puzzlePiece.addClass(styles.leftSocket);
-      }
+    if (background.offsetX !== 0) {
+      puzzlePiece.addClass(styles.leftSocket);
+    }
+    if (Math.ceil(background.offsetX + background.widthPercent) >= 100) {
+      puzzleEar.addClass(styles.hideEar);
     }
 
     this.appendChildren([puzzlePiece, puzzleEar]);

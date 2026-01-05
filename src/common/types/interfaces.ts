@@ -1,14 +1,28 @@
 import type { Component } from '@common/base-component';
 
-export type EmitterEvents =
-  | 'router:navigate'
+// prettier-ignore
+type AppEvents =
+  'router:navigate';
+
+// prettier-ignore
+type GameEvents =
   | 'game:source-word-click'
   | 'game:result-word-click'
   | 'game:sentence-end'
   | 'game:sentence-check'
   | 'game:auto-complete'
   | 'game:round-complete'
-  | 'game:send-results';
+  | 'game:send-results'
+  | 'game:next-sentence-request'
+  | 'game:sentence-checked-success';
+
+// prettier-ignore
+type HintEvents =
+  | 'game:translate-toggle' 
+  | 'game:audio-toggle' 
+  | 'game:view-toggle';
+
+export type EmitterEvents = AppEvents | GameEvents | HintEvents;
 
 export interface IPage {
   render: () => void;
@@ -60,6 +74,19 @@ export interface ILevel {
   rounds: IRound[];
 }
 
+export interface IAppSettings {
+  translate: boolean;
+  audio: boolean;
+  view: boolean;
+}
+
+export interface IGameState {
+  settings: IAppSettings;
+  user: IUser;
+  completedRounds: Record<number, number[]>;
+  lastGameResult: ILastResult | null;
+}
+
 // ============== Results Interfaces ==================
 
 export interface ILastResult {
@@ -107,7 +134,8 @@ export interface IPuzzleWord {
 export interface IPuzzleBackground {
   url: string;
   widthPercent: number;
-  offsetX: number;
   y: number;
+  isOn: boolean;
+  offsetX: number;
   totalRows: number;
 }

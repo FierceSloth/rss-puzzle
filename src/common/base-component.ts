@@ -42,8 +42,12 @@ export class Component<T extends HTMLElement = HTMLElement> {
     return this;
   }
 
-  toggleClass(className: string): this {
-    this.node.classList.toggle(className);
+  toggleClass(className: string, condition?: boolean): this {
+    if (condition !== undefined) {
+      this.node.classList.toggle(className, condition);
+    } else {
+      this.node.classList.toggle(className);
+    }
     return this;
   }
 

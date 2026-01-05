@@ -11,7 +11,7 @@ export class SourceField extends BaseCard {
     super({ className: [styles.sourceField, ...className] });
   }
 
-  renderWords(wordArr: IPuzzleWord[]): void {
+  public renderWords(wordArr: IPuzzleWord[]): void {
     this.destroyChildren();
     wordArr.forEach((wordObj) => {
       this.append(

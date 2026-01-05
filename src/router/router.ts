@@ -32,7 +32,7 @@ export class Router {
   }
 
   public route(path: string): void {
-    const isLogged = Boolean(dataManager.getUser());
+    const isLogged = dataManager.getUser().name !== '' || dataManager.getUser().surname !== '';
 
     if (!isLogged && path !== PagePath.LOGIN) {
       this.navigate(PagePath.LOGIN);

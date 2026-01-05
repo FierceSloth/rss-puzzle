@@ -1,17 +1,18 @@
 import { Component } from '@common/base-component';
 import { ResultBoard } from '@components/features/result-board/result-board';
 import { SourceField } from '@components/features/source-field/source-field';
+import { ImageButton } from '@components/ui/image-button/image-button';
 
 import playAudio from '@assets/images/play-audio.png';
 
-import { shuffleArr } from '@common/utils/random';
+import { gameEmitter } from '@utils/emitter';
+import { dataManager } from '@utils/data-manager';
+import { shuffleArr } from '@utils/random';
 import { PuzzleBoardAlts, PuzzlePieceStatus } from '@enums/enums';
+import { AUDIO_BASE_URL, IMAGE_BASE_URL } from '@constants/constants';
 import { IComponentChild, IGroupResult, IPuzzleWord, IRound, ISentence } from '@/common/types/interfaces';
-import { ImageButton } from '@/components/ui/image-button/image-button';
+
 import styles from './puzzle-board.module.scss';
-import { AUDIO_BASE_URL } from '@/common/constants/constants';
-import { gameEmitter } from '@/common/utils/emitter';
-import { IMAGE_BASE_URL } from '../../../common/constants/constants';
 
 interface IProps extends IComponentChild {
   round: IRound;
@@ -20,7 +21,10 @@ interface IProps extends IComponentChild {
 export class PuzzleBoard extends Component {
   private round: IRound;
   private currentSentenceIndex: number = 0;
+
   private isAutoCompleted: boolean = false;
+  private isBackgroundOn: boolean = true;
+  private isLocked: boolean = false;
 
   private currentSourceWords: IPuzzleWord[] = [];
   private currentResultWords: IPuzzleWord[] = [];
@@ -72,6 +76,11 @@ export class PuzzleBoard extends Component {
   private initSentence() {
     this.unsubscribeFromEvents();
 
+    const settings = dataManager.getSettings();
+    this.toggleView(settings.view);
+    this.toggleTranslate(settings.translate);
+    this.toggleAudio(settings.audio);
+
     const currentRoundData = this.getRoundData();
     this.correctSentence = this.getSentencesData();
 
@@ -117,12 +126,11 @@ export class PuzzleBoard extends Component {
       } else {
         this.saveSentenceResult('unknown');
       }
-      this.isAutoCompleted = false;
-      this.currentSentenceIndex += 1;
 
-      if (!this.checkCompletion()) {
-        this.initSentence();
-      }
+      this.isLocked = true;
+      this.showHints();
+
+      gameEmitter.emit('game:sentence-checked-success', '');
     } else {
       correctWords.forEach((wordObj) => {
         wordObj.status = PuzzlePieceStatus.SUCCESS;
@@ -137,6 +145,21 @@ export class PuzzleBoard extends Component {
     }
   }
 
+  private loadNextSentence() {
+    this.currentResultWords.forEach((word) => {
+      word.background.isOn = true;
+    });
+    this.renderBoards();
+
+    this.isLocked = false;
+    this.isAutoCompleted = false;
+    this.currentSentenceIndex += 1;
+
+    if (!this.checkCompletion()) {
+      this.initSentence();
+    }
+  }
+
   private autoCompleteSentence() {
     this.currentResultWords = [];
     this.currentSourceWords = [];
@@ -146,9 +169,12 @@ export class PuzzleBoard extends Component {
     this.isAutoCompleted = true;
 
     this.renderBoards();
+    this.checkSentence();
   }
 
   private movePuzzlePiece(words: IPuzzleWord[], id: string) {
+    if (this.isLocked) return;
+
     const index = words.findIndex((wordObj) => wordObj.id === id);
     if (index === -1) return;
 
@@ -167,6 +193,8 @@ export class PuzzleBoard extends Component {
     if (this.currentSentenceIndex === this.round.words.length) {
       gameEmitter.emit<IGroupResult>('game:send-results', this.gameResults);
       gameEmitter.emit('game:round-complete', '');
+
+      this.isLocked = true;
 
       this.setPaintInfo();
 
@@ -198,6 +226,40 @@ export class PuzzleBoard extends Component {
     });
   }
 
+  private showHints() {
+    this.currentResultWords.forEach((word) => {
+      word.status = 'success';
+    });
+
+    this.toggleView(true);
+    this.toggleTranslate(true);
+    this.toggleAudio(true);
+
+    this.renderBoards();
+    this.resetHighlighting();
+  }
+
+  // ? ================= Hints ======================
+
+  private toggleAudio(isActive: boolean) {
+    this.audioButton.toggleClass(styles.hide, !isActive);
+  }
+
+  private toggleTranslate(isActive: boolean) {
+    this.translationText.toggleClass(styles.hide, !isActive);
+  }
+
+  private toggleView(isActive: boolean) {
+    this.isBackgroundOn = isActive;
+    this.currentSourceWords.forEach((wordObj) => {
+      wordObj.background.isOn = this.isBackgroundOn;
+    });
+    this.currentResultWords.forEach((wordObj) => {
+      wordObj.background.isOn = this.isBackgroundOn;
+    });
+    this.renderBoards();
+  }
+
   // ? ================= Utils ======================
 
   private getRoundData(): ISentence {
@@ -224,9 +286,10 @@ export class PuzzleBoard extends Component {
 
         background: {
           url: imageUrl,
-          widthPercent,
           offsetX: currentOffset,
           y: this.currentSentenceIndex,
+          isOn: this.isBackgroundOn,
+          widthPercent,
           totalRows,
         },
       };
@@ -248,6 +311,7 @@ export class PuzzleBoard extends Component {
     const paintInfo = `${roundData.author} - ${roundData.name} (${roundData.year})`;
     this.audioButton.destroy();
     this.setTranslationText(paintInfo);
+    this.translationText.removeClass(styles.hide);
   }
 
   private saveSentenceResult(status: 'known' | 'unknown') {
@@ -266,20 +330,43 @@ export class PuzzleBoard extends Component {
     gameEmitter.on<string>('game:result-word-click', (id) => {
       this.movePuzzlePiece(this.currentResultWords, id);
     });
+
     gameEmitter.on('game:sentence-check', () => {
       this.checkSentence();
     });
     gameEmitter.on('game:auto-complete', () => {
       this.autoCompleteSentence();
     });
+    gameEmitter.on('game:next-sentence-request', () => {
+      this.loadNextSentence();
+    });
+
+    gameEmitter.on<boolean>('game:translate-toggle', (condition) => {
+      this.toggleTranslate(condition);
+    });
+
+    gameEmitter.on<boolean>('game:audio-toggle', (condition) => {
+      this.toggleAudio(condition);
+    });
+
+    gameEmitter.on<boolean>('game:view-toggle', (condition) => {
+      this.toggleView(condition);
+    });
+
     return this;
   }
 
   private unsubscribeFromEvents(): this {
     gameEmitter.clear('game:result-word-click');
     gameEmitter.clear('game:source-word-click');
+
     gameEmitter.clear('game:sentence-check');
     gameEmitter.clear('game:auto-complete');
+    gameEmitter.clear('game:next-sentence-request');
+
+    gameEmitter.clear('game:audio-toggle');
+    gameEmitter.clear('game:translate-toggle');
+    gameEmitter.clear('game:view-toggle');
     return this;
   }
 }

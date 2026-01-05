@@ -23,7 +23,7 @@ export class Exit extends Component {
     this.appendChildren([exitText, exitIcon]);
 
     this.addListener('click', () => {
-      dataManager.deleteUser();
+      dataManager.resetLocalStorage();
       appEmitter.emit('router:navigate', PagePath.LOGIN);
     });
   }
