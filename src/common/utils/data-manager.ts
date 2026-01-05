@@ -59,7 +59,7 @@ class DataManager {
 
   resetLocalStorage() {
     localStorage.removeItem(this.storageKey);
-    this.state = this.getInitialState();
+    this.state = DataManager.getInitialState();
   }
 
   // ? =============== Level Logic =====================
