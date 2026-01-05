@@ -1,15 +1,12 @@
-import { IComponentChild } from '@/common/types/interfaces';
+import { IComponentChild, IGroupResult } from '@/common/types/interfaces';
 import { Component } from '@/common/base-component';
 import styles from './game-board.module.scss';
-import type { Router } from '@/router/router';
 import { dataManager } from '@/common/utils/data-manager';
 import { PuzzleBoard } from '../puzzle-board/puzzle-board';
-import { simulationAddingResults } from '@/common/utils/simulationResult';
 import { ControlPanel } from '../control-panel/control-panel';
+import { gameEmitter } from '@/common/utils/emitter';
 
-interface IProps extends IComponentChild {
-  router: Router;
-}
+interface IProps extends IComponentChild {}
 
 export class GameBoard extends Component {
   private currentLevel: number;
@@ -23,10 +20,17 @@ export class GameBoard extends Component {
 
     const round = dataManager.getRound(this.currentLevel, this.currentRound);
     const puzzleBoard = new PuzzleBoard({ round });
-    simulationAddingResults(round);
 
     const controlPanel = new ControlPanel({});
 
     this.appendChildren([puzzleBoard, controlPanel]);
+
+    gameEmitter.clear('game:send-results');
+    gameEmitter.on<IGroupResult>('game:send-results', (group) => {
+      dataManager.setLastResults({
+        paintInfo: round.levelData,
+        sentences: group,
+      });
+    });
   }
 }

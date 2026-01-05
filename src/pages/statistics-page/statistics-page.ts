@@ -2,26 +2,24 @@ import { Component } from '@/common/base-component';
 import { dataManager } from '@/common/utils/data-manager';
 import { StatsCard } from '@/components/features/stats-card/stats-card';
 import { PagePath } from '@/common/enums/enums';
-import type { Router } from '@/router/router';
 
 import styles from './statistics-page.module.scss';
+import { appEmitter } from '@/common/utils/emitter';
 
 export class StatisticsPage {
   private container: Component;
-  private router: Router;
 
-  constructor(container: Component, router: Router) {
+  constructor(container: Component) {
     this.container = container;
-    this.router = router;
   }
 
   render(): void {
     const lastResult = dataManager.getLastResults();
     if (lastResult === null) {
-      this.router.navigate(PagePath.GAME);
+      appEmitter.emit('router:navigate', PagePath.GAME);
       return;
     }
-    const statsCard = new StatsCard({ result: lastResult, router: this.router });
+    const statsCard = new StatsCard({ result: lastResult });
 
     const pageContainer = new Component({ className: [styles.statsContainer, 'pageContainer'] }, statsCard);
     this.container.appendChildren([pageContainer]);

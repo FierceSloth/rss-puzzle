@@ -8,16 +8,15 @@ import { PagePath, PuzzleBoardAlts, StatisticsAlts } from '@enums/enums';
 import { statisticsMessages } from '@constants/messages';
 import { AUDIO_BASE_URL, IMAGE_BASE_URL } from '@constants/constants';
 import { IComponentChild, ILastResult, ISentenceResult } from '@/common/types/interfaces';
-import type { Router } from '@/router/router';
 import styles from './stats-card.module.scss';
+import { appEmitter } from '@/common/utils/emitter';
 
 interface IProps extends IComponentChild {
   result: ILastResult;
-  router: Router;
 }
 
 export class StatsCard extends BaseCard {
-  constructor({ className = [], result, router }: IProps) {
+  constructor({ className = [], result }: IProps) {
     super({ className: [styles.card, ...className] });
 
     // ================== Paint Info ==================
@@ -56,7 +55,7 @@ export class StatsCard extends BaseCard {
       className: [styles.continueButton],
       text: statisticsMessages.buttonText,
       onClick: () => {
-        router.navigate(PagePath.GAME);
+        appEmitter.emit('router:navigate', PagePath.GAME);
       },
     });
 

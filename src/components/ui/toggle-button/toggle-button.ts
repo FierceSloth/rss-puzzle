@@ -23,13 +23,16 @@ export class ToggleButton extends Component {
     };
     const image = new Component({ tag: 'img', className: styles.imageButton, attrs: imageAttrs });
 
-    this.addListener('click', (event) => {
-      this.toggleClass(styles.disabled);
-      if (onClick) {
+    if (onClick) {
+      this.addListener('click', (event) => {
         onClick(event);
-      }
-    });
+      });
+    }
 
     this.append(image);
+  }
+
+  public toggleUI(isActive: boolean) {
+    this.toggleClass(styles.disabled, !isActive);
   }
 }

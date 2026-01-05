@@ -4,14 +4,12 @@ import { IComponentChild } from '@/common/types/interfaces';
 import { Component } from '@/common/base-component';
 import styles from './exit.module.scss';
 import { dataManager } from '@/common/utils/data-manager';
-import { Router } from '@/router/router';
+import { appEmitter } from '@/common/utils/emitter';
 
-interface IProps extends IComponentChild {
-  router: Router;
-}
+interface IProps extends IComponentChild {}
 
 export class Exit extends Component {
-  constructor({ className = [], children = [], router }: IProps) {
+  constructor({ className = [], children = [] }: IProps) {
     const iconAttrs = {
       alt: ImgAlts.exitIcon,
       src: iconImg,
@@ -25,8 +23,8 @@ export class Exit extends Component {
     this.appendChildren([exitText, exitIcon]);
 
     this.addListener('click', () => {
-      dataManager.deleteUser();
-      router.navigate(PagePath.LOGIN);
+      dataManager.resetLocalStorage();
+      appEmitter.emit('router:navigate', PagePath.LOGIN);
     });
   }
 }

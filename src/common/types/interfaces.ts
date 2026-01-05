@@ -1,5 +1,29 @@
 import type { Component } from '@common/base-component';
 
+// prettier-ignore
+type AppEvents =
+  'router:navigate';
+
+// prettier-ignore
+type GameEvents =
+  | 'game:source-word-click'
+  | 'game:result-word-click'
+  | 'game:sentence-end'
+  | 'game:sentence-check'
+  | 'game:auto-complete'
+  | 'game:round-complete'
+  | 'game:send-results'
+  | 'game:next-sentence-request'
+  | 'game:sentence-checked-success';
+
+// prettier-ignore
+type HintEvents =
+  | 'game:translate-toggle' 
+  | 'game:audio-toggle' 
+  | 'game:view-toggle';
+
+export type EmitterEvents = AppEvents | GameEvents | HintEvents;
+
 export interface IPage {
   render: () => void;
 }
@@ -50,14 +74,29 @@ export interface ILevel {
   rounds: IRound[];
 }
 
+export interface IAppSettings {
+  translate: boolean;
+  audio: boolean;
+  view: boolean;
+}
+
+export interface IGameState {
+  settings: IAppSettings;
+  user: IUser;
+  completedRounds: Record<number, number[]>;
+  lastGameResult: ILastResult | null;
+}
+
 // ============== Results Interfaces ==================
 
 export interface ILastResult {
   paintInfo: IPaintInfoResult;
-  sentences: {
-    known: ISentenceResult[];
-    unknown: ISentenceResult[];
-  };
+  sentences: IGroupResult;
+}
+
+export interface IGroupResult {
+  known: ISentenceResult[];
+  unknown: ISentenceResult[];
 }
 
 export interface IPaintInfoResult {
@@ -70,4 +109,33 @@ export interface IPaintInfoResult {
 export interface ISentenceResult {
   sentence: string;
   audioSrc: string;
+}
+
+// ============== Validation Interfaces ==================
+
+export interface IValidateResult {
+  isValid: boolean;
+  errorMessage?: string;
+}
+
+// =============== Game Interfaces =======================
+
+export type PuzzleStatus = 'success' | 'error' | '';
+
+export interface IPuzzleWord {
+  word: string;
+  id: string;
+  width: number;
+  status?: PuzzleStatus;
+
+  background: IPuzzleBackground;
+}
+
+export interface IPuzzleBackground {
+  url: string;
+  widthPercent: number;
+  y: number;
+  isOn: boolean;
+  offsetX: number;
+  totalRows: number;
 }

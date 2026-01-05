@@ -1,13 +1,35 @@
 .resultBoard {
   width: 100%;
-  height: 500px;
   display: flex;
   flex-direction: column;
+  gap: 1px;
   padding: 20px;
 }
 
-.row {
+.gameWrapper {
   width: 100%;
-  height: 50px;
-  border-bottom: 1px var(--color-text-main) solid;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.row {
+  box-sizing: border-box;
+  width: 100%;
+  height: 53px;
+  border-bottom: 1px #adadad50 solid;
+
+  display: flex;
+  gap: 1px;
+
+  opacity: 1;
+  transition: all 0.5s;
+
+  &.hide {
+    opacity: 0;
+  }
 }

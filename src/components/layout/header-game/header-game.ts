@@ -2,17 +2,14 @@ import { Header } from '@components/layout/header/header';
 import { Button } from '@components/ui/button/button';
 import { Component } from '@common/base-component';
 import { IComponentChild } from '@/common/types/interfaces';
-import type { Router } from '../../../router/router';
 
 import styles from './header-game.module.scss';
 
-interface IProps extends IComponentChild {
-  router: Router;
-}
+interface IProps extends IComponentChild {}
 
 export class HeaderGame extends Header {
-  constructor({ className = [], router }: IProps) {
-    super({ className: [styles.headerGame, ...className], router });
+  constructor({ className = [] }: IProps) {
+    super({ className: [styles.headerGame, ...className] });
 
     const level = 'Level 1'; // ? temporary
     const levelSelect = new Button({ className: [styles.select], text: level });

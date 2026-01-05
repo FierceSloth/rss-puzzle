@@ -1,27 +1,35 @@
-// class EventEmitter {
-//   constructor() {
-//     this.events = {};
-//   }
+import { EmitterEvents } from '../types/interfaces';
 
-//   on(event, listener) {
-//     if (!this.events[event]) this.events[event] = [];
-//     this.events[event].push(listener);
-//   }
+type Listener<T = unknown> = (data: T) => void;
 
-//   off(event, listener) {
-//     if (!this.events[event]) return;
-//     this.events[event] = this.events[event].filter((l) => l !== listener);
-//   }
+class EventEmitter {
+  private events: Partial<Record<EmitterEvents, Listener[]>> = {};
 
-//   emit(event, data) {
-//     if (!this.events[event]) return;
-//     this.events[event].forEach((listener) => listener(data));
-//   }
+  on<T>(event: EmitterEvents, listener: Listener<T>) {
+    if (!this.events[event]) {
+      this.events[event] = [];
+    }
+    this.events[event].push(listener as Listener);
+  }
 
-//   clear() {
-//     this.events = {};
-//   }
-// }
+  off<T>(event: EmitterEvents, listener: Listener<T>) {
+    if (!this.events[event]) return;
+    this.events[event] = this.events[event].filter((l) => l !== (listener as Listener));
+  }
 
-// export const emitter = new EventEmitter();
-// export const appEmitter = new EventEmitter();
+  emit<T>(event: EmitterEvents, data: T) {
+    if (!this.events[event]) return;
+    this.events[event].forEach((listener) => listener(data));
+  }
+
+  clear(event: EmitterEvents | undefined) {
+    if (event) {
+      this.events[event] = [];
+    } else {
+      this.events = {};
+    }
+  }
+}
+
+export const appEmitter = new EventEmitter();
+export const gameEmitter = new EventEmitter();

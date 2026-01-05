@@ -3,21 +3,19 @@ import { BaseCard } from '@components/ui/card/card';
 import { BaseInput } from '@components/ui/input/input';
 import { Button } from '@components/ui/button/button';
 import { loginMessages } from '@/common/constants/messages';
-import type { Router } from '@/router/router';
 
 import styles from './login-page.module.scss';
 import { PagePath } from '@/common/enums/enums';
 import { isLoginValid, validateInput } from '@/common/utils/validation';
 import { dataManager } from '@/common/utils/data-manager';
 import { LogoLogin } from '@/components/ui/logo-login/logo-login';
+import { appEmitter } from '@/common/utils/emitter';
 
 export class LoginPage {
   private container: Component;
-  private router: Router;
 
-  constructor(container: Component, router: Router) {
+  constructor(container: Component) {
     this.container = container;
-    this.router = router;
   }
 
   render(): void {
@@ -32,12 +30,14 @@ export class LoginPage {
       type: 'text',
       labelText: loginMessages.nameLabel,
       placeholder: loginMessages.namePlaceholder,
+      validator: (value) => validateInput(value, 3),
     });
     const surNameInput = new BaseInput({
       className: [styles.input],
       type: 'text',
       labelText: loginMessages.surnameLabel,
       placeholder: loginMessages.surnamePlaceholder,
+      validator: (value) => validateInput(value, 4),
     });
 
     const inputWrapper = new Component({ className: [styles.inputWrapper] }, nameInput, surNameInput);
@@ -49,7 +49,7 @@ export class LoginPage {
       text: loginMessages.buttonText,
       onClick: () => {
         dataManager.setUser({ name: nameInput.getValue(), surname: surNameInput.getValue() });
-        this.router.navigate(PagePath.MAIN);
+        appEmitter.emit('router:navigate', PagePath.MAIN);
       },
     });
 
@@ -57,37 +57,10 @@ export class LoginPage {
 
     // ================ Validation ================
 
-    const inputSuccess = {
-      name: false,
-      surname: false,
-    };
-
-    nameInput.addListener('input', () => {
-      const result = validateInput(nameInput.getValue(), 3);
-
-      if (!result.isValid && result.errorMessage) {
-        nameInput.setError(result.errorMessage);
-        inputSuccess.name = false;
-      } else {
-        nameInput.setSuccess();
-        inputSuccess.name = true;
-      }
-
-      loginButton.node.disabled = !isLoginValid([inputSuccess.name, inputSuccess.surname]);
-    });
-
-    surNameInput.addListener('input', () => {
-      const result = validateInput(surNameInput.getValue(), 4);
-
-      if (!result.isValid && result.errorMessage) {
-        surNameInput.setError(result.errorMessage);
-        inputSuccess.surname = false;
-      } else {
-        surNameInput.setSuccess();
-        inputSuccess.surname = true;
-      }
-
-      loginButton.node.disabled = !isLoginValid([inputSuccess.name, inputSuccess.surname]);
+    [nameInput, surNameInput].forEach((input) => {
+      input.addListener('input', () => {
+        loginButton.node.disabled = !isLoginValid([nameInput.isValid(), surNameInput.isValid()]);
+      });
     });
 
     // ================== Containers =================
