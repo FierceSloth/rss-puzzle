@@ -167,6 +167,9 @@ export class PuzzleBoard extends Component {
     if (this.currentSentenceIndex === this.round.words.length) {
       gameEmitter.emit<IGroupResult>('game:send-results', this.gameResults);
       gameEmitter.emit('game:round-complete', '');
+
+      this.setPaintInfo();
+
       return true;
     }
     return false;
@@ -238,6 +241,13 @@ export class PuzzleBoard extends Component {
       const audio = new Audio(`${AUDIO_BASE_URL}${src}`);
       audio.play();
     });
+  }
+
+  private setPaintInfo() {
+    const roundData = this.round.levelData;
+    const paintInfo = `${roundData.author} - ${roundData.name} (${roundData.year})`;
+    this.audioButton.destroy();
+    this.setTranslationText(paintInfo);
   }
 
   private saveSentenceResult(status: 'known' | 'unknown') {

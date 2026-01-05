@@ -22,8 +22,12 @@ class EventEmitter {
     this.events[event].forEach((listener) => listener(data));
   }
 
-  clear(event: EmitterEvents) {
-    this.events[event] = [];
+  clear(event: EmitterEvents | undefined) {
+    if (event) {
+      this.events[event] = [];
+    } else {
+      this.events = {};
+    }
   }
 }
 

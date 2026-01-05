@@ -6,12 +6,30 @@
   padding: 20px;
 }
 
+.gameWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+
+  background-position: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
 .row {
   box-sizing: border-box;
   width: 100%;
-  height: 50px;
+  height: 53px;
   border-bottom: 1px #adadad50 solid;
-  gap: 1px;
 
   display: flex;
+  gap: 1px;
+
+  opacity: 1;
+  transition: all 0.5s;
+
+  &.hide {
+    opacity: 0;
+  }
 }
