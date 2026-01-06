@@ -11,10 +11,10 @@ import type { App } from '@/app';
 
 export class Router {
   private pages: Record<string, IPage>;
-
   private app: App;
-
   private currentPath = '';
+
+  private basePath: string;
 
   constructor(app: App) {
     this.pages = {
@@ -26,13 +26,26 @@ export class Router {
     };
     this.app = app;
 
+    const base = import.meta.env.BASE_URL;
+    this.basePath = base.endsWith('/') ? base.slice(0, -1) : base;
+
     appEmitter.on<PagePath>('router:navigate', (page) => {
       this.navigate(page);
     });
   }
 
-  public route(path: string): void {
-    const isLogged = dataManager.getUser().name !== '' || dataManager.getUser().surname !== '';
+  public route(): void {
+    let path = globalThis.location.pathname;
+
+    if (this.basePath && path.startsWith(this.basePath)) {
+      path = path.replace(this.basePath, '');
+    }
+
+    if (!path || path === '') {
+      path = '/';
+    }
+
+    const isLogged = dataManager.getUser().name !== '' && dataManager.getUser().surname !== '';
 
     if (!isLogged && path !== PagePath.LOGIN) {
       this.navigate(PagePath.LOGIN);
@@ -60,14 +73,15 @@ export class Router {
   }
 
   public navigate(path: string): void {
-    globalThis.history.pushState({}, '', path);
-    this.route(path);
+    const fullPath = this.basePath ? `${this.basePath}${path}` : path;
+    globalThis.history.pushState({}, '', fullPath);
+    this.route();
   }
 
   public listen(): void {
     globalThis.addEventListener('popstate', () => {
-      this.route(globalThis.location.pathname);
+      this.route();
     });
-    this.route(globalThis.location.pathname);
+    this.route();
   }
 }

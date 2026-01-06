@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import path from 'path';
 
 export default defineConfig({
-  base: './',
+  base: '/fiercesloth-JSFE2025Q3/rss-puzzle/',
   build: {
     outDir: 'dist',
     minify: false,
