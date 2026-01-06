@@ -20,6 +20,7 @@ module.exports = {
     sourceType: 'module',
     project: './tsconfig.json',
   },
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'vite.config.ts'],
   noInlineConfig: true,
   rules: {
     'lines-between-class-members': 'off',
