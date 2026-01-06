@@ -2,18 +2,13 @@
   position: relative;
 }
 
-.levelContainer {
+.selectContainer {
   display: flex;
   gap: 5px;
   height: 40px;
-  width: 300px;
 
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-
-.select {
-  box-shadow: none;
 }

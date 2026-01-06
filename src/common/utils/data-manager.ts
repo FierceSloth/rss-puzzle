@@ -5,7 +5,7 @@ import level4 from '@data/wordCollectionLevel4.json';
 import level5 from '@data/wordCollectionLevel5.json';
 import level6 from '@data/wordCollectionLevel6.json';
 import { LOCAL_STORAGE_KEY } from '@constants/constants';
-import { ILastResult, ILevel, IRound, IUser, IGameState, IAppSettings } from '@app-types/interfaces';
+import { ILastResult, ILevel, IRound, IUser, IGameState, IAppSettings, IRounds } from '@app-types/interfaces';
 
 class DataManager {
   private levels: ILevel[];
@@ -45,13 +45,17 @@ class DataManager {
         name: '',
         surname: '',
       },
-      completedRounds: {
-        1: [],
-        2: [],
-        3: [],
-        4: [],
-        5: [],
-        6: [],
+      rounds: {
+        currentRound: 1,
+        currentLevel: 1,
+        completedRounds: {
+          1: [],
+          2: [],
+          3: [],
+          4: [],
+          5: [],
+          6: [],
+        },
       },
       lastGameResult: null,
     };
@@ -102,19 +106,40 @@ class DataManager {
     this.saveData();
   }
 
-  // ? ================= Progress & Results =================
+  // ? ================= Progress =================
+
+  getCurrentProgress(): IRounds {
+    return this.state.rounds;
+  }
+
+  setCurrentLevel(level: number) {
+    this.state.rounds.currentLevel = level;
+    this.saveData();
+  }
+
+  setCurrentRound(round: number) {
+    this.state.rounds.currentRound = round;
+    this.saveData();
+  }
+
+  isRoundCompleted(level: number, round: number): boolean {
+    const progress = this.getCurrentProgress();
+    return progress.completedRounds[level].includes(round);
+  }
 
   markRoundAsCompleted(level: number, round: number) {
-    const completed = this.state.completedRounds[level];
+    const completed = this.state.rounds.completedRounds[level];
     if (!completed.includes(round)) {
       completed.push(round);
       this.saveData();
     }
   }
 
-  isRoundCompleted(level: number, round: number): boolean {
-    return this.state.completedRounds[level]?.includes(round) || false;
+  getRoundsCount(level: number): number {
+    return this.levels[level - 1]?.rounds.length || 0;
   }
+
+  // ? ================= Results =================
 
   setLastResults(result: ILastResult) {
     this.state.lastGameResult = result;

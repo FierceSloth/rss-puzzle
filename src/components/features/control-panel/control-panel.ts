@@ -54,12 +54,14 @@ export class ControlPanel extends Component {
     this.isContinueMode = true;
     this.checkButton.node.textContent = actionButtonMessages.continueButton;
     this.checkButton.node.disabled = false;
+    this.giveUpButton.node.disabled = true;
   }
 
   private setCheckMode() {
     this.isContinueMode = false;
     this.checkButton.node.textContent = actionButtonMessages.checkButton;
     this.checkButton.node.disabled = true;
+    this.giveUpButton.node.disabled = false;
   }
 
   private subscribe() {

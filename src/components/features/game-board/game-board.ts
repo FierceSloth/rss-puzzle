@@ -9,28 +9,39 @@ import { gameEmitter } from '@/common/utils/emitter';
 interface IProps extends IComponentChild {}
 
 export class GameBoard extends Component {
-  private currentLevel: number;
-  private currentRound: number;
-
   constructor({ className = [], children = [] }: IProps) {
     super({ className: [styles.gameBoard, ...className] }, ...children);
 
-    this.currentLevel = 1;
-    this.currentRound = 1;
-
-    const round = dataManager.getRound(this.currentLevel, this.currentRound);
-    const puzzleBoard = new PuzzleBoard({ round });
-
-    const controlPanel = new ControlPanel({});
-
-    this.appendChildren([puzzleBoard, controlPanel]);
+    this.renderRound();
 
     gameEmitter.clear('game:send-results');
+    gameEmitter.clear('game:round-change');
+
+    gameEmitter.on('game:round-change', () => {
+      this.renderRound();
+    });
+
     gameEmitter.on<IGroupResult>('game:send-results', (group) => {
+      const { currentLevel, currentRound } = dataManager.getCurrentProgress();
+      const roundData = dataManager.getRound(currentLevel, currentRound);
+      dataManager.markRoundAsCompleted(currentLevel, currentRound);
+
       dataManager.setLastResults({
-        paintInfo: round.levelData,
+        paintInfo: roundData.levelData,
         sentences: group,
       });
     });
+  }
+
+  private renderRound() {
+    this.destroyChildren();
+
+    const { currentLevel, currentRound } = dataManager.getCurrentProgress();
+    const round = dataManager.getRound(currentLevel, currentRound);
+
+    const puzzleBoard = new PuzzleBoard({ round });
+    const controlPanel = new ControlPanel({});
+
+    this.appendChildren([puzzleBoard, controlPanel]);
   }
 }

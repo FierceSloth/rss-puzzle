@@ -22,7 +22,11 @@ type HintEvents =
   | 'game:audio-toggle' 
   | 'game:view-toggle';
 
-export type EmitterEvents = AppEvents | GameEvents | HintEvents;
+// prettier-ignore
+type RoundEvents =
+  | 'game:round-change' ;
+
+export type EmitterEvents = AppEvents | GameEvents | HintEvents | RoundEvents;
 
 export interface IPage {
   render: () => void;
@@ -80,10 +84,16 @@ export interface IAppSettings {
   view: boolean;
 }
 
+export interface IRounds {
+  currentRound: number;
+  currentLevel: number;
+  completedRounds: Record<number, number[]>;
+}
+
 export interface IGameState {
   settings: IAppSettings;
   user: IUser;
-  completedRounds: Record<number, number[]>;
+  rounds: IRounds;
   lastGameResult: ILastResult | null;
 }
 
@@ -138,4 +148,9 @@ export interface IPuzzleBackground {
   isOn: boolean;
   offsetX: number;
   totalRows: number;
+}
+
+export interface IOption {
+  value: string | number;
+  text: string;
 }

@@ -9,7 +9,8 @@ import { statisticsMessages } from '@constants/messages';
 import { AUDIO_BASE_URL, IMAGE_BASE_URL } from '@constants/constants';
 import { IComponentChild, ILastResult, ISentenceResult } from '@/common/types/interfaces';
 import styles from './stats-card.module.scss';
-import { appEmitter } from '@/common/utils/emitter';
+import { appEmitter, gameEmitter } from '@/common/utils/emitter';
+import { dataManager } from '@/common/utils/data-manager';
 
 interface IProps extends IComponentChild {
   result: ILastResult;
@@ -55,6 +56,17 @@ export class StatsCard extends BaseCard {
       className: [styles.continueButton],
       text: statisticsMessages.buttonText,
       onClick: () => {
+        const { currentLevel, currentRound } = dataManager.getCurrentProgress();
+        const totalRounds = dataManager.getRoundsCount(currentLevel);
+        const totalLevels = 6;
+
+        if (currentRound < totalRounds) {
+          dataManager.setCurrentRound(currentRound + 1);
+          gameEmitter.emit('game:round-change', '');
+        } else if (currentLevel < totalLevels) {
+          dataManager.setCurrentLevel(currentLevel + 1);
+          dataManager.setCurrentRound(1);
+        }
         appEmitter.emit('router:navigate', PagePath.GAME);
       },
     });
