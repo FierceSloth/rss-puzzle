@@ -148,7 +148,7 @@ var StatisticsAlts = /* @__PURE__ */ ((StatisticsAlts2) => {
   StatisticsAlts2["img"] = "Artwork";
   return StatisticsAlts2;
 })(StatisticsAlts || {});
-const puzzleIcon = "/assets/logo-puzzle-BiH7LWwl.png";
+const puzzleIcon = "" + new URL("logo-puzzle-BiH7LWwl.png", import.meta.url).href;
 const logoMessages = {
   textRSS: "RSS",
   textPuzzle: "Puzzle"
@@ -1589,7 +1589,7 @@ class Router {
       [PagePath.NOT_FOUND]: new NotFound(app2.container)
     };
     this.app = app2;
-    const base = "/";
+    const base = "./";
     this.basePath = base.endsWith("/") ? base.slice(0, -1) : base;
     appEmitter.on("router:navigate", (page) => {
       this.navigate(page);
@@ -1651,9 +1651,6 @@ class App {
     this.container.destroyChildren();
   }
 }
-alert(`Пожалуйста, если будет время и возможность, проверь мою работу ближе к четвергу, буду очень благодарен! Заранее спасибо 🙂
-  
-Please, if you have time and the opportunity, check my work closer to Thursday. I would really appreciate it. Thanks in advance 🙂`);
 const app = new App();
 app.start();
-//# sourceMappingURL=index-fS31cH2D.js.map
+//# sourceMappingURL=index-DY_cGXXr.js.map
