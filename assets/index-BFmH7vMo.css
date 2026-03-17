@@ -616,7 +616,7 @@ html {
 body {
   color: var(--color-text-main);
   font-family: var(--font-body);
-  background-image: url(./puzzle-background-Y4rv8Qjl.png);
+  background-image: url(/rss-puzzle/assets/puzzle-background-Y4rv8Qjl.png);
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;

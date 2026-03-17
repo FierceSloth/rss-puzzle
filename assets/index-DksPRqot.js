@@ -148,7 +148,7 @@ var StatisticsAlts = /* @__PURE__ */ ((StatisticsAlts2) => {
   StatisticsAlts2["img"] = "Artwork";
   return StatisticsAlts2;
 })(StatisticsAlts || {});
-const puzzleIcon = "" + new URL("logo-puzzle-BiH7LWwl.png", import.meta.url).href;
+const puzzleIcon = "/rss-puzzle/assets/logo-puzzle-BiH7LWwl.png";
 const logoMessages = {
   textRSS: "RSS",
   textPuzzle: "Puzzle"
@@ -1589,7 +1589,7 @@ class Router {
       [PagePath.NOT_FOUND]: new NotFound(app2.container)
     };
     this.app = app2;
-    const base = "./";
+    const base = "/rss-puzzle/";
     this.basePath = base.endsWith("/") ? base.slice(0, -1) : base;
     appEmitter.on("router:navigate", (page) => {
       this.navigate(page);
@@ -1653,4 +1653,4 @@ class App {
 }
 const app = new App();
 app.start();
-//# sourceMappingURL=index-DY_cGXXr.js.map
+//# sourceMappingURL=index-DksPRqot.js.map
