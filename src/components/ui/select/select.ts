@@ -27,7 +27,7 @@ export class Select extends Component<HTMLSelectElement> {
     this.destroyChildren();
 
     options.forEach(({ value, text }) => {
-      const optionEl = new Component({ tag: 'option', className: styles.option , text });
+      const optionEl = new Component({ tag: 'option', className: styles.option, text });
       optionEl.node.setAttribute('value', String(value));
       this.append(optionEl);
     });

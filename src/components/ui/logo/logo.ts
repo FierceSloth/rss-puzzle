@@ -1,9 +1,9 @@
 import puzzleIcon from '@assets/images/logo-puzzle.png';
 import { logoMessages } from '@constants/messages';
-import { IComponentChild } from '@/common/types/interfaces';
-import { Component } from '@/common/base-component';
 import { ImgAlts, PagePath } from '@enums/enums';
 import { appEmitter } from '@utils/emitter';
+import { IComponentChild } from '@/common/types/interfaces';
+import { Component } from '@/common/base-component';
 
 import styles from './logo.module.scss';
 

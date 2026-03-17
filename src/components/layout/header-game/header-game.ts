@@ -64,7 +64,7 @@ export class HeaderGame extends Header {
     for (let i = 1; i <= count; i += 1) {
       const isComplete = dataManager.isRoundCompleted(level, i);
       const text = `Round ${i} ${isComplete ? '✔' : ''}`;
-      options.push({ value: i, text: text });
+      options.push({ value: i, text });
     }
     return options;
   }
